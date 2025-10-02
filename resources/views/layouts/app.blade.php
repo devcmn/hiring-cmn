@@ -8,6 +8,7 @@
 
     {{-- Vite handles Tailwind --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://unpkg.com/feather-icons"></script>
 
     <style>
@@ -154,6 +155,7 @@
     </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 </body>
 
 </html>
