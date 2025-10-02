@@ -13,6 +13,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Candidate routes
+Route::get('/candidate/job', function () {
+    return view('candidate.jobs');
+})->name('candidate.jobs');
+
+// HR routes
+Route::get('/hr/job', function () {
+    return view('hr.jobs');
+})->name('hr.jobs');
+
+Route::get('/hr/post-job', function () {
+    return view('hr.post-job');
+})->name('hr.post-job');
