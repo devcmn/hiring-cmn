@@ -17,10 +17,18 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+
+            // User role: admin, hr, candidate
+            $table->enum('role', ['admin', 'hr', 'candidate'])->default('candidate');
+
+            // Optional extra info
+            $table->string('phone')->nullable();
+            $table->string('avatar')->nullable(); // profile picture
+
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
