@@ -2,7 +2,7 @@
 
 @section('title', 'Browse Jobs - Hiring - CMN')
 @section('page-title', 'Find Your Dream Job')
-@section('page-subtitle', 'Explore opportunities from top companies')
+@section('page-subtitle', 'Explore opportunities from our companies')
 @section('user-initial', 'JD')
 @section('user-name', 'John Doe')
 @section('user-role', 'Candidate')
@@ -77,7 +77,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <!-- Job Card -->
             <div
-                class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all hover:border-accent-500">
+                class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all hover:border-primary-600">
                 <div class="flex items-start justify-between mb-4">
                     <div
                         class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
@@ -95,9 +95,10 @@
                 <p class="text-sm text-gray-600 mb-3">DesignHub Studio</p>
 
                 <div class="flex flex-wrap gap-2 mb-4">
-                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Figma</span>
-                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">UI/UX</span>
-                    <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Prototyping</span>
+                    <span class="px-3 py-1 bg-primary-200 text-primary-800 text-xs font-semibold rounded-full">Figma</span>
+                    <span class="px-3 py-1 bg-primary-200 text-primary-800 text-xs font-semibold rounded-full">UI/UX</span>
+                    <span
+                        class="px-3 py-1 bg-primary-200 text-primary-800 text-xs font-semibold rounded-full">Prototyping</span>
                 </div>
 
                 <p class="text-sm text-gray-700 mb-4 line-clamp-3">
@@ -125,7 +126,7 @@
                 </div>
 
                 <button @click="showModal = true; selectedJob = 'Product Designer'"
-                    class="w-full py-3 bg-accent-500 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors">
+                    class="w-full py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors">
                     Apply Now
                 </button>
             </div>
