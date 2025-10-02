@@ -30,11 +30,6 @@
                     alt="Hiring CMN Logo Full"
                     class="h-8 invert brightness-0 contrast-200 transition-all duration-300" />
 
-                {{-- <!-- Collapsed Sidebar (icon logo) -->
-                <img x-show="!sidebarOpen" x-cloak src="{{ asset('assets/logo/cmn-logo.png') }}"
-                    alt="Hiring CMN Logo Icon"
-                    class="h-8 invert brightness-0 contrast-200 transition-all duration-300" /> --}}
-
                 <button @click="sidebarOpen = !sidebarOpen"
                     class="p-2 rounded-lg hover:bg-primary-800 transition-colors">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,33 +52,55 @@
                     <!-- Avatar -->
                     <div class="w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center flex-shrink-0">
                         <span class="text-sm font-semibold text-primary-950">
-                            @yield('user-initial', 'U')
+                            @auth
+                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                            @else
+                                G
+                            @endauth
                         </span>
                     </div>
 
                     <!-- Name + Role -->
                     <div x-show="sidebarOpen" x-cloak class="flex-1 ml-3">
-                        <p class="text-sm font-medium truncate">@yield('user-name', 'User')</p>
-                        <p class="text-xs text-gray-400 truncate">@yield('user-role', 'Role')</p>
+                        @auth
+                            <p class="text-sm font-medium truncate">{{ auth()->user()->name }}</p>
+                            <p class="text-xs text-gray-400 truncate">{{ ucfirst(auth()->user()->role) }}</p>
+                        @else
+                            <p class="text-sm font-medium truncate">Guest</p>
+                            <p class="text-xs text-gray-400 truncate">Visitor</p>
+                        @endauth
                     </div>
 
-                    <!-- Logout big button -->
-                    <form method="POST" action="{{ '' }}" class="ml-3 flex-shrink-0">
-                        @csrf
-                        <button type="submit"
-                            class="w-10 h-10 flex items-center justify-center rounded border text-white-50 hover:bg-red-500 hover:text-white transition-colors hover:border-red-500"
-                            title="Log Out">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
-                            </svg>
-                        </button>
-                    </form>
+                    <!-- Action Button: Logout or Login -->
+                    <div class="ml-3 flex-shrink-0">
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit"
+                                    class="w-10 h-10 flex items-center justify-center rounded border text-white-50 hover:bg-red-500 hover:text-white transition-colors hover:border-red-500"
+                                    title="Log Out">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
+                                    </svg>
+                                </button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="w-10 h-10 flex items-center justify-center rounded border text-white-50 hover:bg-primary-800 hover:text-white transition-colors"
+                                title="Login">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12" />
+                                </svg>
+                            </a>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </aside>
-
         <!-- Main Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Header -->
@@ -106,6 +123,18 @@
                     </div>
                 </div>
             </header>
+
+            @if (session('success'))
+                <div class="bg-green-500 text-white px-4 py-3 rounded mb-4">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="bg-red-500 text-white px-4 py-3 rounded mb-4">
+                    {{ session('error') }}
+                </div>
+            @endif
 
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-6">

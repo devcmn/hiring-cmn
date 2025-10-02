@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +14,20 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+// Home / redirect based on role
+Route::get('/', function () {
+    if (auth()->check()) {
+        $role = auth()->user()->role;
+        return match ($role) {
+            'hr' => redirect()->route('hr.jobs'),
+            'candidate' => redirect()->route('candidate.jobs'),
+            default => redirect('/login'),
+        };
+    }
+    // Guest sees candidate jobs
+    return redirect()->route('candidate.jobs');
+});
 
 // Candidate routes
 Route::get('/candidate/job', function () {
@@ -26,3 +42,15 @@ Route::get('/hr/job', function () {
 Route::get('/hr/post-job', function () {
     return view('hr.post-job');
 })->name('hr.post-job');
+
+// Auth routes
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'showLoginForm')->name('login');
+    Route::post('/login', 'login');
+    Route::post('/logout', 'logout')->name('logout');
+});
+
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/register', 'showRegistrationForm')->name('register');
+    Route::post('/register', 'register');
+});

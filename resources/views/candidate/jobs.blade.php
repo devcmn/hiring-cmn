@@ -129,6 +129,15 @@
                     class="w-full py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors">
                     Apply Now
                 </button>
+
+                {{-- @if (auth()->check())
+                    <a href="{{ route('job.apply', $job->id) }}" class="btn btn-primary">Apply Now</a>
+                @else
+                    <button @click="showModal = true; selectedJob = '{{ $job->title }}'"
+                        class="w-full py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors">
+                        Apply Now
+                    </button>
+                @endif --}}
             </div>
         </div>
 
