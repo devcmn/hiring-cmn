@@ -115,7 +115,7 @@
                 class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all hover:border-primary-600">
                 <div class="flex items-start justify-between mb-4">
                     <div
-                        class="w-14 h-14 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+                        class="w-14 h-14 bg-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-xl">
                         DH
                     </div>
                     <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">

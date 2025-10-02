@@ -19,7 +19,7 @@
 </head>
 
 <body class="bg-gray-50 font-sans antialiased" x-data="{ sidebarOpen: true }">
-    <div class="flex h-screen overflow-hidden">
+    <div x-data="{ sidebarOpen: window.innerWidth >= 768 }" x-init="window.addEventListener('resize', () => sidebarOpen = window.innerWidth >= 768)" class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
         <aside
             :class="[sidebarOpen ? 'w-64' : 'w-20',
@@ -48,21 +48,22 @@
             </nav>
 
             <!-- User Info -->
-            <div class="p-4 border-t border-primary-800">
-                <div class="flex items-center justify-between w-full">
-                    <!-- Avatar -->
-                    <div class="w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center flex-shrink-0">
-                        <span class="text-sm font-semibold text-primary-950">
-                            @auth
-                                {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
-                            @else
-                                G
-                            @endauth
-                        </span>
-                    </div>
+            <!-- User Info -->
+            <div class="p-4 border-t border-primary-800 flex justify-center">
+                <!-- Avatar always visible -->
+                <div class="w-10 h-10 rounded-full bg-primary-200 flex items-center justify-center flex-shrink-0">
+                    <span class="text-sm font-semibold text-primary-950">
+                        @auth
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        @else
+                            G
+                        @endauth
+                    </span>
+                </div>
 
-                    <!-- Name + Role -->
-                    <div x-show="sidebarOpen" x-cloak class="flex-1 ml-3">
+                <!-- Expanded Info: Name + Role + Button -->
+                <div x-show="sidebarOpen" x-cloak class="flex-1 ml-3 flex items-center justify-between">
+                    <div>
                         @auth
                             <p class="text-sm font-medium truncate">{{ auth()->user()->name }}</p>
                             <p class="text-xs text-gray-400 truncate">{{ ucfirst(auth()->user()->role) }}</p>
@@ -72,16 +73,16 @@
                         @endauth
                     </div>
 
-                    <!-- Action Button: Logout or Login -->
+                    <!-- Logout/Login Button -->
                     <div class="ml-3 flex-shrink-0">
                         @auth
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <button type="submit"
-                                    class="w-10 h-10 flex items-center justify-center rounded border text-white-50 hover:bg-red-500 hover:text-white transition-colors hover:border-red-500"
+                                    class="flex items-center justify-center p-2 rounded border border-white text-white hover:bg-red-500 hover:text-white transition-colors"
                                     title="Log Out">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                        stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15m-3 0-3-3m0 0 3-3m-3 3H15" />
                                     </svg>
@@ -89,10 +90,10 @@
                             </form>
                         @else
                             <a href="{{ route('login') }}"
-                                class="w-10 h-10 flex items-center justify-center rounded border text-white-50 hover:bg-primary-800 hover:text-white transition-colors"
+                                class="flex items-center justify-center p-2 rounded border border-white text-white hover:bg-primary-800 hover:text-white transition-colors"
                                 title="Login">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6A2.25 2.25 0 0 0 5.25 5.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12" />
                                 </svg>
@@ -111,7 +112,7 @@
                         <h2 class="text-2xl font-bold text-gray-900">@yield('page-title')</h2>
                         <p class="text-sm text-gray-600 mt-1">@yield('page-subtitle')</p>
                     </div>
-                    <div class="flex items-center space-x-4">
+                    {{-- <div class="flex items-center space-x-4">
                         <!-- Notifications -->
                         <button
                             class="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors border">
@@ -121,7 +122,7 @@
                             </svg>
                             <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                         </button>
-                    </div>
+                    </div> --}}
                 </div>
             </header>
             <!-- Page Content -->
