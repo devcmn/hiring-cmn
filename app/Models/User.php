@@ -38,4 +38,19 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function isCandidate(): bool
+    {
+        return $this->role === 'candidate';
+    }
+
+    public function isHR(): bool
+    {
+        return $this->role === 'hr';
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
 }
