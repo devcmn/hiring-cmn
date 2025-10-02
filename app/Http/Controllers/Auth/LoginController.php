@@ -21,26 +21,16 @@ class LoginController extends Controller
         ]);
 
         if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            // Flash success
+            session()->regenerate();
             session()->flash('success', 'Logged in successfully!');
 
-            // Role-based redirect
             $role = Auth::user()->role;
-            if ($role === 'hr') {
-                return redirect()->route('hr.jobs');
-            } elseif ($role === 'candidate') {
-                return redirect()->route('candidate.jobs');
-            } else {
-                return redirect('/'); // fallback
-            }
+            return $role === 'hr'
+                ? redirect()->route('hr.jobs')
+                : redirect()->route('candidate.jobs');
         }
 
-        // Invalid credentials
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ])->with('error', 'Login failed! Check your credentials.');
+        return back()->with('error', 'Invalid credentials.');
     }
 
     public function logout(Request $request)
@@ -49,6 +39,7 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        session()->flash('success', 'You have logged out successfully.');
+        return redirect()->route('login');
     }
 }

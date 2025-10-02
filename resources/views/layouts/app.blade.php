@@ -123,19 +123,6 @@
                     </div>
                 </div>
             </header>
-
-            @if (session('success'))
-                <div class="bg-green-500 text-white px-4 py-3 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div class="bg-red-500 text-white px-4 py-3 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-            @endif
-
             <!-- Page Content -->
             <main class="flex-1 overflow-y-auto p-6">
                 @yield('content')
@@ -144,7 +131,29 @@
     </div>
 
     @yield('scripts')
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            @if (session('success'))
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: "{{ session('success') }}",
+                    confirmButtonColor: '#166534' // Tailwind green-600
+                });
+            @endif
+
+            @if (session('error'))
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: "{{ session('error') }}",
+                    confirmButtonColor: '#dc2626' // Tailwind red-600
+                });
+            @endif
+        });
+    </script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>
