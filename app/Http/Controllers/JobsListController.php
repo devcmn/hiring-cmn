@@ -26,11 +26,33 @@ class JobsListController extends Controller
         return view('candidate.detail', compact('job'));
     }
 
-    public function apply($id)
+    public function showApplyForm(JobListModel $job)
     {
-        $job = JobListModel::findOrFail($id);
-        // maybe check auth() here later
-        // return view('candidate.apply', compact('job'));
+        return view('candidate.apply', compact('job'));
+    }
+
+    public function submitApplication(Request $request, JobListModel $job)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'phone' => 'required|string|max:20',
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
+            'cover_letter' => 'nullable|string',
+        ]);
+
+        // Save application logic
+        $application = $job->applications()->create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'cover_letter' => $request->cover_letter,
+            'resume_path' => $request->file('resume')->store('resumes'),
+        ]);
+
+        return redirect()->route('candidate.job', $job->id)->with('success', 'Application submitted successfully!');
     }
 
     public function indexForHr(Request $request)

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Browse Jobs - Hiring - CMN')
-@section('page-title', 'Find Your Dream Job')
+@section('page-title', 'Find Your Opportunities')
 @section('page-subtitle', 'Explore opportunities from our companies')
 @section('user-initial', 'JD')
 @section('user-name', 'John Doe')

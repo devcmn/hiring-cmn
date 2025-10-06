@@ -59,10 +59,10 @@
 
                 {{-- Action Buttons - Desktop --}}
                 <div class="hidden sm:flex sm:flex-col gap-3 sm:min-w-[180px]">
-                    <button
+                    <a href="{{ route('jobs.apply', $job->id) }}"
                         class="px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md">
                         Apply Now
-                    </button>
+                    </a>
                     <a href="{{ route('candidate.jobs') }}"
                         class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
                         Back to Browse Job
@@ -156,10 +156,10 @@
                 class="px-4 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
                 Back
             </a>
-            <button
+            <a href="{{ route('jobs.apply', $job->id) }}"
                 class="flex-1 px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm active:scale-95">
                 Apply Now
-            </button>
+            </a>
 
             {{-- <button
                 class="px-4 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">

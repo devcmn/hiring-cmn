@@ -46,7 +46,8 @@ Route::controller(JobsListController::class)->group(function () {
     // Candidate side
     Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
     Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
-    Route::get('/jobs/{id}/apply', 'apply')->name('jobs.apply');
+    Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
+    Route::post('/jobs/{job}/apply', 'submitApplication')->name('jobs.submit');
 
     // HR side
     Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
