@@ -93,7 +93,7 @@
                         Requirements <span class="text-red-500">*</span>
                     </label>
                     <textarea id="requirements" name="requirements" rows="6"
-                        placeholder="List the required skills, experience, and qualifications..."
+                        placeholder="Gunakan koma pada setiap list. Contoh: Pengalaman min. 2 thn, Menguasai Excel, dll."
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all resize-none"
                         required></textarea>
                 </div>
@@ -103,7 +103,8 @@
                     <label for="benefits" class="block text-sm font-semibold text-gray-900 mb-2">
                         Benefits & Perks
                     </label>
-                    <textarea id="benefits" name="benefits" rows="4" placeholder="Health insurance, flexible hours, remote work..."
+                    <textarea id="benefits" name="benefits" rows="4"
+                        placeholder="Gunakan koma pada setiap list. Contoh: Health insurance, flexible hours, remote work..."
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all resize-none"></textarea>
                 </div>
 
