@@ -10,7 +10,8 @@
 @section('content')
     <div class="max-w-4xl mx-auto">
         <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-            <form action="#" method="POST" class="space-y-6">
+            <form action="{{ route('jobs.store') }}" method="POST" class="space-y-6">
+                @csrf
                 <!-- Job Title -->
                 <div>
                     <label for="job-title" class="block text-sm font-semibold text-gray-900 mb-2">
@@ -27,15 +28,19 @@
                         <label for="company" class="block text-sm font-semibold text-gray-900 mb-2">
                             Company Name <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="company" name="company" placeholder="Your company name"
+                        <select id="company" name="company"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
+                            <option value="">Select company name</option>
+                            <option value="PT. Ciptakom Media Nusa">CMN (PT. Ciptakom Media Nusa)</option>
+                            <option value="PT. Ciptakomunindo Pradipta">CP (PT. Ciptakomunindo Pradipta)</option>
+                        </select>
                     </div>
                     <div>
                         <label for="location" class="block text-sm font-semibold text-gray-900 mb-2">
                             Location <span class="text-red-500">*</span>
                         </label>
-                        <input type="text" id="location" name="location" placeholder="e.g. San Francisco, CA or Remote"
+                        <input type="text" id="location" name="location" placeholder="e.g. Cengkareng, Jakarta Barat"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
                     </div>
@@ -59,9 +64,9 @@
                     </div>
                     <div>
                         <label for="salary" class="block text-sm font-semibold text-gray-900 mb-2">
-                            Salary Range
+                            Salary
                         </label>
-                        <input type="text" id="salary" name="salary" placeholder="e.g. $80,000 - $120,000"
+                        <input type="text" id="salary" name="salary" placeholder="e.g. 5.000.000"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all">
                     </div>
                 </div>
@@ -93,19 +98,14 @@
                     <label for="benefits" class="block text-sm font-semibold text-gray-900 mb-2">
                         Benefits & Perks
                     </label>
-                    <textarea id="benefits" name="benefits" rows="4"
-                        placeholder="Health insurance, 401k, flexible hours, remote work..."
+                    <textarea id="benefits" name="benefits" rows="4" placeholder="Health insurance, flexible hours, remote work..."
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all resize-none"></textarea>
                 </div>
 
                 <!-- Action Buttons -->
                 <div class="flex items-center justify-end space-x-4 pt-6 border-t border-gray-200">
-                    <button type="button"
-                        class="px-6 py-3 text-gray-700 font-medium rounded-lg hover:bg-gray-100 transition-colors">
-                        Save as Draft
-                    </button>
                     <button type="submit"
-                        class="px-8 py-3 bg-accent-500 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors shadow-lg shadow-accent-500/30">
+                        class="px-8 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors shadow-lg shadow-accent-500/30">
                         Publish Job
                     </button>
                 </div>
@@ -113,3 +113,25 @@
         </div>
     </div>
 @endsection
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const salaryInput = document.getElementById('salary');
+
+        salaryInput.addEventListener('input', function(e) {
+            // Remove any non-digit characters
+            let value = e.target.value.replace(/\D/g, '');
+
+            // Format with dot as thousand separator
+            if (value) {
+                e.target.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            } else {
+                e.target.value = '';
+            }
+        });
+
+        // Before submit, strip the dots so backend gets clean number
+        salaryInput.form.addEventListener('submit', function() {
+            salaryInput.value = salaryInput.value.replace(/\./g, '');
+        });
+    });
+</script>

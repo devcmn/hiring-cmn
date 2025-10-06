@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\JobsListController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -53,4 +54,8 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(RegisterController::class)->group(function () {
     Route::get('/register', 'showRegistrationForm')->name('register');
     Route::post('/register', 'register');
+});
+
+Route::controller(JobsListController::class)->group(function () {
+    Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
 });
