@@ -86,7 +86,8 @@
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                                         First Name <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="first_name" value="{{ old('first_name') }}"
+                                    <input type="text" name="first_name"
+                                        value="{{ old('first_name', auth()->user()->name) }}"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('first_name') border-red-500 @enderror"
                                         placeholder="John" required>
                                     @error('first_name')
@@ -120,7 +121,8 @@
                                                     d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                                             </svg>
                                         </div>
-                                        <input type="email" name="email" value="{{ old('email') }}"
+                                        <input type="email" name="email"
+                                            value="{{ old('email', auth()->user()->email) }}"
                                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('email') border-red-500 @enderror"
                                             placeholder="john.doe@example.com" required>
                                     </div>
@@ -143,7 +145,7 @@
                                         </div>
                                         <input type="tel" name="phone" value="{{ old('phone') }}"
                                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('phone') border-red-500 @enderror"
-                                            placeholder="+62 812 3456 7890" required>
+                                            placeholder="0812 3456 7890" required>
                                     </div>
                                     @error('phone')
                                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -183,12 +185,12 @@
                                             </label>
                                             <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">PDF, DOC, DOCX up to 5MB</p>
+                                        <p class="text-xs text-gray-500">PDF up to 5MB</p>
                                     </div>
                                 </div>
-                                <input id="resume" name="resume" type="file" class="hidden"
-                                    accept=".pdf,.doc,.docx" required onchange="updateFileName(this)">
-                                <p id="fileName" class="text-sm text-gray-600 mt-2 hidden"></p>
+                                <input id="resume" name="resume" type="file" class="hidden" accept=".pdf"
+                                    onchange="updateFileName('resume', 'fileNameResume')">
+                                <p id="fileNameResume" class="text-sm text-gray-600 mt-2 hidden"></p>
                                 @error('resume')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
@@ -199,7 +201,7 @@
                                     Other File <span class="text-gray-500">(Optional)</span>
                                 </label>
                                 <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-primary-500 transition-colors cursor-pointer"
-                                    onclick="document.getElementById('resume').click()">
+                                    onclick="document.getElementById('other_file').click()">
                                     <div class="space-y-1 text-center">
                                         <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none"
                                             viewBox="0 0 48 48">
@@ -208,19 +210,19 @@
                                                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                         </svg>
                                         <div class="flex text-sm text-gray-600">
-                                            <label for="resume"
+                                            <label for="other_file"
                                                 class="relative cursor-pointer rounded-md font-medium text-primary-900 hover:text-primary-800">
                                                 <span>Upload a file</span>
                                             </label>
                                             <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">PDF, DOC, DOCX up to 5MB</p>
+                                        <p class="text-xs text-gray-500">PDF up to 5MB</p>
                                     </div>
                                 </div>
-                                <input id="resume" name="resume" type="file" class="hidden"
-                                    accept=".pdf,.doc,.docx" required onchange="updateFileName(this)">
-                                <p id="fileName" class="text-sm text-gray-600 mt-2 hidden"></p>
-                                @error('resume')
+                                <input id="other_file" name="other_file" type="file" class="hidden" accept=".pdf"
+                                    onchange="updateFileName('other_file', 'fileNameOther')">
+                                <p id="fileNameOther" class="text-sm text-gray-600 mt-2 hidden"></p>
+                                @error('other_file')
                                     <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                                 @enderror
                             </div>
@@ -368,19 +370,32 @@
 
     <script>
         // Character counter for cover letter
-        document.querySelector('textarea[name="cover_letter"]').addEventListener('input', function(e) {
-            document.getElementById('charCount').textContent = e.target.value.length;
+        const coverLetter = document.querySelector('textarea[name="cover_letter"]');
+        const charCount = document.getElementById('charCount');
+
+        // Initialize counter with existing value
+        charCount.textContent = coverLetter.value.length;
+
+        coverLetter.addEventListener('input', function(e) {
+            charCount.textContent = e.target.value.length;
         });
 
-        // File name display
-        function updateFileName(input) {
+        // File name display function
+        function updateFileName(inputId, displayId) {
+            const input = document.getElementById(inputId);
+            const fileDisplay = document.getElementById(displayId);
             const fileName = input.files[0]?.name;
-            const fileDisplay = document.getElementById('fileName');
+
             if (fileName) {
                 fileDisplay.textContent = '✓ ' + fileName;
                 fileDisplay.classList.remove('hidden');
                 fileDisplay.classList.add('text-green-600', 'font-medium');
+            } else {
+                fileDisplay.textContent = '';
+                fileDisplay.classList.add('hidden');
+                fileDisplay.classList.remove('text-green-600', 'font-medium');
             }
         }
     </script>
+
 @endsection

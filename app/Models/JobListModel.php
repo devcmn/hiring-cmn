@@ -32,6 +32,11 @@ class JobListModel extends Model
         'deleted_at',
     ];
 
+    public function applications()
+    {
+        return $this->hasMany(JobApplicationModel::class, 'job_id', 'id');
+    }
+
     protected $dates = ['application_deadline'];
 
     public function setTitleAttribute($value)

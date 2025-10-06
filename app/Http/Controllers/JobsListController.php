@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\JobApplicationModel;
 use App\Models\JobListModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class JobsListController extends Controller
@@ -39,20 +43,52 @@ class JobsListController extends Controller
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
             'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
+            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
             'cover_letter' => 'nullable|string',
         ]);
 
-        // Save application logic
-        $application = $job->applications()->create([
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'cover_letter' => $request->cover_letter,
-            'resume_path' => $request->file('resume')->store('resumes'),
-        ]);
+        try {
+            if ($job->applications()->where('user_id', Auth::id())->exists()) {
+                return redirect()->back()->with('error', 'You have already applied for this job.');
+            }
+            $firstName = $request->first_name;
+            $lastName = $request->last_name;
+            $jobFolder = Str::slug($job->id . '-' . $job->title);
+            $candidateFolder = Str::slug($firstName . '-' . $lastName);
 
-        return redirect()->route('candidate.job', $job->id)->with('success', 'Application submitted successfully!');
+            $basePath = "private/jobs/{$jobFolder}/{$candidateFolder}";
+
+            // Store Resume (CV)
+            $resume = $request->file('resume');
+            $cvPath = $resume->storeAs($basePath, "CV_{$firstName}_{$lastName}." . $resume->getClientOriginalExtension());
+
+            // Store Other File if exists
+            $otherPath = null;
+            if ($request->hasFile('other_file')) {
+                $otherFile = $request->file('other_file');
+                $otherPath = $otherFile->storeAs($basePath, "Other_{$firstName}_{$lastName}." . $otherFile->getClientOriginalExtension());
+            }
+
+            // Save application
+            $job->applications()->create([
+                'user_id' => Auth::user()->id,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'cover_letter' => $request->cover_letter,
+                'cv_path' => $cvPath,
+                'other_path' => $otherPath,
+            ]);
+
+            return redirect()->route('candidate.jobs', $job->id)
+                ->with('success', 'Application submitted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Job Application Error: ' . $e->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Failed to submit application. Please try again.');
+        }
     }
 
     public function indexForHr(Request $request)
