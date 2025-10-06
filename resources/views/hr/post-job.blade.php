@@ -11,10 +11,10 @@
                 @csrf
                 <!-- Job Title -->
                 <div>
-                    <label for="job-title" class="block text-sm font-semibold text-gray-900 mb-2">
+                    <label for="title" class="block text-sm font-semibold text-gray-900 mb-2">
                         Job Title <span class="text-red-500">*</span>
                     </label>
-                    <input type="text" id="job-title" name="job_title" placeholder="e.g. Senior Frontend Developer"
+                    <input type="text" id="title" name="title" placeholder="e.g. Senior Frontend Developer"
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                         required>
                 </div>
@@ -22,10 +22,10 @@
                 <!-- Company & Location -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                        <label for="company" class="block text-sm font-semibold text-gray-900 mb-2">
+                        <label for="company_name" class="block text-sm font-semibold text-gray-900 mb-2">
                             Company Name <span class="text-red-500">*</span>
                         </label>
-                        <select id="company" name="company"
+                        <select id="company_name" name="company_name"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
                             <option value="">Select company name</option>
@@ -109,26 +109,28 @@
             </form>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const salaryInput = document.getElementById('salary');
+
+            salaryInput.addEventListener('input', function(e) {
+                // Remove any non-digit characters
+                let value = e.target.value.replace(/\D/g, '');
+
+                // Format with dot as thousand separator
+                if (value) {
+                    e.target.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+                } else {
+                    e.target.value = '';
+                }
+            });
+
+            // Before submit, strip the dots so backend gets clean number
+            salaryInput.form.addEventListener('submit', function() {
+                salaryInput.value = salaryInput.value.replace(/\./g, '');
+            });
+        });
+    </script>
 @endsection
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const salaryInput = document.getElementById('salary');
-
-        salaryInput.addEventListener('input', function(e) {
-            // Remove any non-digit characters
-            let value = e.target.value.replace(/\D/g, '');
-
-            // Format with dot as thousand separator
-            if (value) {
-                e.target.value = value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-            } else {
-                e.target.value = '';
-            }
-        });
-
-        // Before submit, strip the dots so backend gets clean number
-        salaryInput.form.addEventListener('submit', function() {
-            salaryInput.value = salaryInput.value.replace(/\./g, '');
-        });
-    });
-</script>

@@ -33,11 +33,6 @@ class JobListModel extends Model
         $this->attributes['title'] = ucwords(strtolower($value));
     }
 
-    public function setCompanyNameAttribute($value)
-    {
-        $this->attributes['company_name'] = ucwords(strtolower($value));
-    }
-
     public function setLocationAttribute($value)
     {
         $this->attributes['location'] = ucwords(strtolower($value));

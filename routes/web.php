@@ -49,5 +49,5 @@ Route::controller(JobsListController::class)->group(function () {
     // HR side
     Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
     Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
-    Route::post('/hr/jobs-store', 'postJob')->name('jobs.store');
+    Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
 });
