@@ -60,11 +60,11 @@
                 {{-- Action Buttons - Desktop --}}
                 <div class="hidden sm:flex sm:flex-col gap-3 sm:min-w-[180px]">
                     <a href="{{ route('jobs.apply', $job->id) }}"
-                        class="px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md">
+                        class="w-full px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md text-center">
                         Apply Now
                     </a>
                     <a href="{{ route('candidate.jobs') }}"
-                        class="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
+                        class="w-full px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors text-center">
                         Back to Browse Job
                     </a>
                     {{-- <button
@@ -152,15 +152,16 @@
         {{-- Action Buttons - Mobile --}}
         <div
             class="sm:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex gap-3 shadow-lg z-10">
+
             <a href="{{ route('candidate.jobs') }}"
-                class="px-4 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
+                class="flex-1 px-4 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors text-center">
                 Back
             </a>
+
             <a href="{{ route('jobs.apply', $job->id) }}"
-                class="flex-1 px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm active:scale-95">
+                class="flex-[3] px-4 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm active:scale-95 text-center">
                 Apply Now
             </a>
-
             {{-- <button
                 class="px-4 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
