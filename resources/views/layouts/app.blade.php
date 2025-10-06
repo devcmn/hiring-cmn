@@ -94,7 +94,7 @@
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
                                     <button type="submit"
-                                        class="flex items-center justify-center p-2 rounded border border-white text-white hover:bg-red-500 transition-colors"
+                                        class="flex items-center justify-center p-2 rounded-lg bg-red-500/80 hover:bg-red-600 text-white shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105"
                                         title="Log Out">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -105,7 +105,7 @@
                                 </form>
                             @else
                                 <a href="{{ route('login') }}"
-                                    class="flex items-center justify-center p-2 rounded border border-white text-white hover:bg-primary-800 transition-colors"
+                                    class="flex items-center justify-center p-2 rounded-lg bg-white/20 hover:bg-white/30 text-white shadow-sm transition-all duration-200 hover:shadow-md hover:scale-105"
                                     title="Login">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
