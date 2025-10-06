@@ -43,14 +43,19 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(JobsListController::class)->group(function () {
-    // Candidate side
-    Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
-    Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
-    Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
-    Route::post('/jobs/{job}/apply', 'submitApplication')->name('jobs.submit');
 
-    // HR side
-    Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
-    Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
-    Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+    // Candidate routes
+    Route::middleware(['auth', 'role:candidate'])->group(function () {
+        Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
+        Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
+        Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
+        Route::post('/jobs/{job}/apply', 'submitApplication')->name('jobs.submit');
+    });
+
+    // HR routes
+    Route::middleware(['auth', 'role:hr'])->group(function () {
+        Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
+        Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
+        Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+    });
 });
