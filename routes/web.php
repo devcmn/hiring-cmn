@@ -30,20 +30,6 @@ Route::get('/', function () {
     return redirect()->route('candidate.jobs');
 });
 
-// Candidate routes
-Route::get('/candidate/job', function () {
-    return view('candidate.jobs');
-})->name('candidate.jobs');
-
-// HR routes
-Route::get('/hr/job', function () {
-    return view('hr.jobs');
-})->name('hr.jobs');
-
-Route::get('/hr/post-job', function () {
-    return view('hr.post-job');
-})->name('hr.post-job');
-
 // Auth routes
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'showLoginForm')->name('login');
@@ -57,5 +43,11 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(JobsListController::class)->group(function () {
-    Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+    // Candidate side
+    Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
+
+    // HR side
+    Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
+    Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
+    Route::post('/hr/jobs-store', 'postJob')->name('jobs.store');
 });

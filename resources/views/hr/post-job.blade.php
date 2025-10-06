@@ -3,9 +3,6 @@
 @section('title', 'Post a Job - Hiring - CMN')
 @section('page-title', 'Post a New Job')
 @section('page-subtitle', 'Fill in the details to create a new job posting')
-@section('user-initial', 'HR')
-@section('user-name', 'HR Manager')
-@section('user-role', 'Human Resources')
 
 @section('content')
     <div class="max-w-4xl mx-auto">
