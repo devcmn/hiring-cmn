@@ -45,6 +45,8 @@ Route::controller(RegisterController::class)->group(function () {
 Route::controller(JobsListController::class)->group(function () {
     // Candidate side
     Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
+    Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
+    Route::get('/jobs/{id}/apply', 'apply')->name('jobs.apply');
 
     // HR side
     Route::get('/hr/job', 'indexForHr')->name('hr.jobs');

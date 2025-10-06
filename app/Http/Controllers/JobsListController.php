@@ -10,8 +10,27 @@ class JobsListController extends Controller
 {
     public function indexForCandidate()
     {
-        $jobs = JobListModel::where('status', 'Active')->latest()->get();
+        $jobs = JobListModel::where('status', 'Active')
+            ->where(function ($q) {
+                $q->whereNull('application_deadline')
+                    ->orWhere('application_deadline', '>=', now());
+            })
+            ->latest()
+            ->get();
         return view('candidate.jobs', compact('jobs'));
+    }
+
+    public function detail($id)
+    {
+        $job = JobListModel::findOrFail($id);
+        return view('candidate.detail', compact('job'));
+    }
+
+    public function apply($id)
+    {
+        $job = JobListModel::findOrFail($id);
+        // maybe check auth() here later
+        // return view('candidate.apply', compact('job'));
     }
 
     public function indexForHr(Request $request)
