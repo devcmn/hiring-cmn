@@ -10,6 +10,9 @@ class JobListModel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const ACTIVE = 'Active';
+    const CLOSED = 'Closed';
+
     protected $table = 'jobs_list';
 
     protected $fillable = [
@@ -21,12 +24,15 @@ class JobListModel extends Model
         'description',
         'requirements',
         'benefits',
+        'application_deadline',
         'status',
         'posted_by',
         'created_at',
         'updated_at',
         'deleted_at',
     ];
+
+    protected $dates = ['application_deadline'];
 
     public function setTitleAttribute($value)
     {

@@ -6,22 +6,30 @@
 
 @section('content')
     <div class="mb-6 flex items-center justify-between">
-        <div class="flex items-center space-x-4">
-            <button class="px-4 py-2 bg-primary-950 text-white rounded-lg font-medium">
-                All Jobs (:count)
-            </button>
-            <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
-                Active (:count)
-            </button>
-            <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg font-medium transition-colors">
-                Closed (:count)
-            </button>
+        <div class="inline-flex rounded-lg overflow-hidden border border-gray-300">
+            <a href="{{ route('hr.jobs', ['filter' => 'all']) }}"
+                class="px-4 py-2 font-medium transition-colors
+        {{ ($filter ?? '') === 'all' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                All Jobs ({{ $activeCount + $closedCount }})
+            </a>
+
+            <a href="{{ route('hr.jobs', ['filter' => 'active']) }}"
+                class="px-4 py-2 font-medium transition-colors border-l border-gray-300
+        {{ ($filter ?? '') === 'active' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                Active ({{ $activeCount }})
+            </a>
+
+            <a href="{{ route('hr.jobs', ['filter' => 'closed']) }}"
+                class="px-4 py-2 font-medium transition-colors border-l border-gray-300
+        {{ ($filter ?? '') === 'closed' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                Closed ({{ $closedCount }})
+            </a>
         </div>
         <a href="{{ route('hr.post-job') }}"
             class="flex items-center gap-x-2 px-3 py-2 border-2 border-primary-800 text-primary-800 font-semibold rounded-lg 
             hover:bg-primary-800 hover:text-white transition-colors shadow-lg shadow-accent-500/30">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                class="w-5 h-5">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
             </svg>
@@ -33,14 +41,20 @@
         @forelse ($jobs as $job)
             <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-shadow">
                 <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-accent-100 rounded-lg flex items-center justify-center">
-                        <svg class="w-6 h-6 text-accent-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    <div class="w-12 h-12 bg-primary-100 rounded-lg flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="size-6">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 0 0 .75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 0 0-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0 1 12 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 0 1-.673-.38m0 0A2.18 2.18 0 0 1 3 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 0 1 3.413-.387m7.5 0V5.25A2.25 2.25 0 0 0 13.5 3h-3a2.25 2.25 0 0 0-2.25 2.25v.894m7.5 0a48.667 48.667 0 0 0-7.5 0M12 12.75h.008v.008H12v-.008Z" />
                         </svg>
                     </div>
                     <span
-                        class="px-3 py-1 {{ $job->status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600' }} text-xs font-semibold rounded-full">
+                        class="px-3 py-1 text-xs font-semibold rounded-full
+                        @if ($job->status === 'Active') bg-green-100 text-green-700
+                        @elseif ($job->status === 'Closed')
+                        bg-red-100 text-red-700
+                        @else
+                        bg-gray-100 text-gray-600 @endif">
                         {{ ucfirst($job->status) }}
                     </span>
                 </div>
@@ -62,6 +76,7 @@
                         </svg>
                         {{ $job->location }}
                     </span>
+
                     <span class="flex items-center">
                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -69,6 +84,16 @@
                         </svg>
                         {{ ucfirst($job->job_type) }}
                     </span>
+
+                    @if ($job->application_deadline)
+                        <span class="flex items-center text-xs">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            Until {{ \Carbon\Carbon::parse($job->application_deadline)->format('d M Y') }}
+                        </span>
+                    @endif
                 </div>
 
                 <div class="flex items-center justify-between pt-4 border-t border-gray-200">

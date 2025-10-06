@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- Job Type & Salary -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                         <label for="job-type" class="block text-sm font-semibold text-gray-900 mb-2">
                             Job Type <span class="text-red-500">*</span>
@@ -64,6 +64,14 @@
                             Salary
                         </label>
                         <input type="text" id="salary" name="salary" placeholder="e.g. 5.000.000"
+                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all">
+                    </div>
+                    <div>
+                        <label for="application_deadline" class="block text-sm font-semibold text-gray-900 mb-2">
+                            Open Until
+                        </label>
+                        <input type="date" id="application_deadline" name="application_deadline"
+                            placeholder="e.g. 5.000.000"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all">
                     </div>
                 </div>

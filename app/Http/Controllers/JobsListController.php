@@ -10,15 +10,30 @@ class JobsListController extends Controller
 {
     public function indexForCandidate()
     {
-        $jobs = JobListModel::where('status', 'active')->latest()->get();
+        $jobs = JobListModel::where('status', 'Active')->latest()->get();
         return view('candidate.jobs', compact('jobs'));
     }
 
-    public function indexForHr()
+    public function indexForHr(Request $request)
     {
-        $jobs = JobListModel::latest()->get();
-        return view('hr.jobs', compact('jobs'));
+        $filter = $request->query('filter', 'active');
+
+        $query = JobListModel::query();
+
+        if ($filter === JobListModel::ACTIVE) {
+            $query->where('status', 'Active');
+        } elseif ($filter === JobListModel::CLOSED) {
+            $query->where('status', 'Closed');
+        }
+
+        $jobs = $query->latest()->get();
+
+        $activeCount = JobListModel::where('status', 'Active')->count();
+        $closedCount = JobListModel::where('status', 'Closed')->count();
+
+        return view('hr.jobs', compact('jobs', 'activeCount', 'closedCount', 'filter'));
     }
+
 
     public function postJob()
     {
@@ -37,6 +52,7 @@ class JobsListController extends Controller
                 'description' => 'required|string',
                 'requirements' => 'required|string',
                 'benefits' => 'nullable|string',
+                'application_deadline' => 'nullable|date',
             ]);
 
             JobListModel::create($validated);
