@@ -76,11 +76,15 @@
                     <div class="flex-1 flex items-center justify-between min-w-0">
                         <div class="min-w-0">
                             @auth
-                                <p class="text-sm font-medium truncate">{{ auth()->user()->name }}</p>
-                                <p class="text-xs text-gray-400 truncate">{{ ucfirst(auth()->user()->role) }}</p>
+                                <p class="text-sm font-medium truncate">
+                                    {{ strtoupper(auth()->user()->name) }}
+                                </p>
+                                <p class="text-xs text-gray-400 truncate">
+                                    {{ strtoupper(auth()->user()->role) }}
+                                </p>
                             @else
-                                <p class="text-sm font-medium truncate">Guest</p>
-                                <p class="text-xs text-gray-400 truncate">Visitor</p>
+                                <p class="text-sm font-medium truncate">GUEST</p>
+                                <p class="text-xs text-gray-400 truncate">VISITOR</p>
                             @endauth
                         </div>
 

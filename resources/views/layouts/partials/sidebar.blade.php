@@ -1,13 +1,15 @@
 <aside class="space-y-2">
-    {{-- Browse Jobs is visible to everyone --}}
-    <a href="{{ route('candidate.jobs') }}"
-        class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('candidate.jobs') ? 'bg-primary-800 text-white' : 'text-gray-300 hover:bg-primary-800 hover:text-white' }}">
-        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-        </svg>
-        <span x-show="sidebarOpen" x-cloak>Browse Jobs</span>
-    </a>
+    {{-- Browse Jobs (hidden for HR) --}}
+    @if (!Auth::check() || !Auth::user()->isHr())
+        <a href="{{ route('candidate.jobs') }}"
+            class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('candidate.jobs') ? 'bg-primary-800 text-white' : 'text-gray-300 hover:bg-primary-800 hover:text-white' }}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <span x-show="sidebarOpen" x-cloak>Browse Jobs</span>
+        </a>
+    @endif
 
     @auth
         {{-- Candidate-only links --}}
