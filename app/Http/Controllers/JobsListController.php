@@ -11,6 +11,7 @@ use Illuminate\Support\Str;
 
 class JobsListController extends Controller
 {
+    // CANDIDATE
     public function indexForCandidate()
     {
         $jobs = JobListModel::where('status', 'Active')
@@ -32,6 +33,20 @@ class JobsListController extends Controller
     public function showApplyForm(JobListModel $job)
     {
         return view('candidate.apply', compact('job'));
+    }
+
+    public function myApplications()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Fetch applications with related job data
+        $applications = $user->applications()
+            ->with('job')
+            ->latest()
+            ->paginate(10);
+
+        return view('candidate.my-applications', compact('applications'));
     }
 
     public function submitApplication(Request $request, JobListModel $job)
@@ -90,6 +105,9 @@ class JobsListController extends Controller
         }
     }
 
+    // END CANDIDATE
+
+    // HR
     public function indexForHr(Request $request)
     {
         $filter = $request->query('filter', 'active');
@@ -122,6 +140,15 @@ class JobsListController extends Controller
         return view('hr.post-job');
     }
 
+    public function getJobDetails($id)
+    {
+        $job = JobListModel::withCount('applications')->findOrFail($id);
+
+        return response()->json([
+            'job' => $job
+        ]);
+    }
+
     public function storeJobs(Request $request)
     {
         try {
@@ -144,23 +171,9 @@ class JobsListController extends Controller
             return redirect()->back()->with('error', 'Failed to post job: ' . $e->getMessage());
         }
     }
+    // END HR JOB
 
-    // CANDIDATE
-    public function myApplications()
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        // Fetch applications with related job data
-        $applications = $user->applications()
-            ->with('job')
-            ->latest()
-            ->paginate(10);
-
-        return view('candidate.my-applications', compact('applications'));
-    }
-
-    // HR
+    // HR APPLICANTS
     public function applicants()
     {
         // Get all jobs with their applications
@@ -218,4 +231,15 @@ class JobsListController extends Controller
             'application' => $application
         ]);
     }
+
+    public function closeJob(JobListModel $job)
+    {
+        if ($job->status === 'Closed') {
+            return response()->json(['success' => false, 'message' => 'Job is already closed.']);
+        }
+
+        $job->update(['status' => 'Closed']);
+        return response()->json(['success' => true]);
+    }
+    // END HR APPLICANTS
 }

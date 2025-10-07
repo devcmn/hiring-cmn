@@ -101,7 +101,8 @@
                     <span class="text-sm font-semibold text-gray-900">
                         {{ $job->applications_count ?? 0 }} Applicants
                     </span>
-                    <button class="text-accent-600 hover:text-accent-700 font-medium text-sm">
+                    <button onclick="showJobDetails({{ $job->id }})"
+                        class="text-accent-600 hover:text-accent-700 font-medium text-sm">
                         View Details →
                     </button>
                 </div>
@@ -110,4 +111,7 @@
             <p class="text-gray-500 text-center col-span-full py-12">No jobs available right now.</p>
         @endforelse
     </div>
+
+    @include('hr.modal.job-details-modal')
+    <script src={{ asset('assets/js/hr/job-details.js') }}></script>
 @endsection

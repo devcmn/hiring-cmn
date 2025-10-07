@@ -16,6 +16,7 @@
             display: none !important;
         }
     </style>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body class="bg-gray-50 font-sans antialiased" x-data="{

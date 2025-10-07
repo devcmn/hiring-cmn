@@ -62,6 +62,12 @@ Route::controller(JobsListController::class)->group(function () {
         Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
         Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
         Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+
+        // Job Details
+        Route::get('/hr/jobs/{id}/details', 'getJobDetails')->name('hr.jobs.details');
+        Route::put('/hr/jobs/{job}/close', 'closeJob')->name('hr.jobs.close');
+
+        // Applicant
         Route::get('/hr/applicants', 'applicants')->name('hr.applicants');
         Route::get('/hr/applications/{id}/details', 'getApplicationDetails')->name('hr.applications.details');
     });
