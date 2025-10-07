@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class JobsListController extends Controller
 {
@@ -111,7 +110,6 @@ class JobsListController extends Controller
         return view('hr.jobs', compact('jobs', 'activeCount', 'closedCount', 'filter'));
     }
 
-
     public function postJob()
     {
         return view('hr.post-job');
@@ -138,5 +136,19 @@ class JobsListController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to post job: ' . $e->getMessage());
         }
+    }
+
+    public function myApplications()
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Fetch applications with related job data
+        $applications = $user->applications()
+            ->with('job')
+            ->latest()
+            ->paginate(10);
+
+        return view('candidate.my-applications', compact('applications'));
     }
 }

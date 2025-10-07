@@ -10,6 +10,11 @@ class JobApplicationModel extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const PENDING = 'pending';
+    const ACCEPTED = 'accepted';
+    const INTERVIEW = 'interview';
+    const REJECTED = 'rejected';
+
     protected $table = 'job_applications';
 
     protected $fillable = [
@@ -27,4 +32,9 @@ class JobApplicationModel extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function job()
+    {
+        return $this->belongsTo(JobListModel::class, 'job_id');
+    }
 }

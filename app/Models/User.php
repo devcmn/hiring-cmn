@@ -15,11 +15,13 @@ class User extends Authenticatable
     // Fillable fields
     protected $fillable = [
         'name',
+        'last_name',
         'email',
         'password',
         'role',
         'phone',
         'avatar',
+        'remember_token',
     ];
 
     // Hidden fields
@@ -33,7 +35,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Password mutator (optional)
+    public function applications()
+    {
+        return $this->hasMany(JobApplicationModel::class, 'user_id');
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);

@@ -54,6 +54,7 @@ Route::controller(JobsListController::class)->group(function () {
     Route::middleware(['auth', 'role:candidate'])->group(function () {
         Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
         Route::post('/jobs/{job}/apply', 'submitApplication')->name('jobs.submit');
+        Route::get('/candidate/applications', 'myApplications')->name('candidate.applications');
     });
 
     // HR routes
