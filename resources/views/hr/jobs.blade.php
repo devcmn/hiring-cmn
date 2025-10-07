@@ -99,7 +99,7 @@
 
                 <div class="flex items-center justify-between pt-4 border-t border-gray-200">
                     <span class="text-sm font-semibold text-gray-900">
-                        {{ $job->applicants_count ?? 0 }} Applicants
+                        {{ $job->applications_count ?? 0 }} Applicants
                     </span>
                     <button class="text-accent-600 hover:text-accent-700 font-medium text-sm">
                         View Details →

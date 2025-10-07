@@ -96,18 +96,25 @@ class JobsListController extends Controller
 
         $query = JobListModel::query();
 
-        if ($filter === JobListModel::ACTIVE) {
-            $query->where('status', 'Active');
-        } elseif ($filter === JobListModel::CLOSED) {
-            $query->where('status', 'Closed');
+        if ($filter === 'active') {
+            $query->where('status', JobListModel::ACTIVE);
+        } elseif ($filter === 'closed') {
+            $query->where('status',  JobListModel::CLOSED);
+        } elseif ($filter === 'all') {
+            // Show all jobs
         }
 
-        $jobs = $query->latest()->get();
+        $jobs = $query->withCount('applications')->latest()->get();
 
         $activeCount = JobListModel::where('status', 'Active')->count();
         $closedCount = JobListModel::where('status', 'Closed')->count();
 
-        return view('hr.jobs', compact('jobs', 'activeCount', 'closedCount', 'filter'));
+        return view('hr.jobs', compact(
+            'jobs',
+            'activeCount',
+            'closedCount',
+            'filter'
+        ));
     }
 
     public function postJob()
