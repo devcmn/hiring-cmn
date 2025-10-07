@@ -77,7 +77,7 @@
                         <div class="min-w-0">
                             @auth
                                 <p class="text-sm font-medium truncate">
-                                    {{ strtoupper(auth()->user()->name) }}
+                                    {{ strtoupper(auth()->user()->name) }} {{ strtoupper(auth()->user()->last_name) }}
                                 </p>
                                 <p class="text-xs text-gray-400 truncate">
                                     {{ strtoupper(auth()->user()->role) }}

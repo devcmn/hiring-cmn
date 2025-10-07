@@ -40,6 +40,16 @@ class User extends Authenticatable
         return $this->hasMany(JobApplicationModel::class, 'user_id');
     }
 
+    public function setFirstNameAttribute($value)
+    {
+        $this->attributes['name'] = ucwords(strtolower($value));
+    }
+
+    public function setLastNameAttribute($value)
+    {
+        $this->attributes['last_name'] = ucwords(strtolower($value));
+    }
+
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = bcrypt($value);
