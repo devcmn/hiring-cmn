@@ -40,7 +40,7 @@ class User extends Authenticatable
         return $this->hasMany(JobApplicationModel::class, 'user_id');
     }
 
-    public function setFirstNameAttribute($value)
+    public function setNameAttribute($value)
     {
         $this->attributes['name'] = ucwords(strtolower($value));
     }

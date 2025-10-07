@@ -99,7 +99,8 @@
                                     <label class="block text-sm font-semibold text-gray-700 mb-2">
                                         Last Name <span class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" name="last_name" value="{{ old('last_name') }}"
+                                    <input type="text" name="last_name"
+                                        value="{{ old('first_name', auth()->user()->last_name) }}"
                                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('last_name') border-red-500 @enderror"
                                         placeholder="Doe" required>
                                     @error('last_name')
@@ -143,7 +144,8 @@
                                                     d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                                             </svg>
                                         </div>
-                                        <input type="tel" name="phone" value="{{ old('phone') }}"
+                                        <input type="tel" name="phone"
+                                            value="{{ old('phone', auth()->user()->phone) }}"
                                             class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('phone') border-red-500 @enderror"
                                             placeholder="0812 3456 7890" required>
                                     </div>
