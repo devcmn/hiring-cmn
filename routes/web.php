@@ -62,5 +62,6 @@ Route::controller(JobsListController::class)->group(function () {
         Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
         Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
         Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+        Route::get('/hr/applicants', 'applicants')->name('hr.applicants');
     });
 });

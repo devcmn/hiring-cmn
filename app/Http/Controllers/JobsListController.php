@@ -138,6 +138,7 @@ class JobsListController extends Controller
         }
     }
 
+    // CANDIDATE
     public function myApplications()
     {
         /** @var \App\Models\User $user */
@@ -150,5 +151,67 @@ class JobsListController extends Controller
             ->paginate(10);
 
         return view('candidate.my-applications', compact('applications'));
+    }
+
+    // HR
+    // HR Controller Method
+    public function applicants()
+    {
+        // Get all jobs with their applications
+        $jobs = JobListModel::with(
+            ['applications' => function ($query) {
+                $query->latest();
+            }]
+        )
+            ->whereHas('applications')
+            ->withCount('applications')
+            ->latest()
+            ->get();
+
+        // Get all applications for statistics
+        $allApplications = JobApplicationModel::all();
+
+        // Calculate statistics
+        $totalApplications = $allApplications->count();
+        $pendingApplications = $allApplications->where('status', 'pending')->count();
+        $interviewApplications = $allApplications->where('status', 'interview')->count();
+        $acceptedApplications = $allApplications->where('status', 'accepted')->count();
+        $rejectedApplications = $allApplications->where('status', 'rejected')->count();
+
+        return view('hr.applicants', compact(
+            'jobs',
+            'totalApplications',
+            'pendingApplications',
+            'interviewApplications',
+            'acceptedApplications',
+            'rejectedApplications'
+        ));
+    }
+
+    public function updateApplicationStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,interview,accepted,rejected'
+        ]);
+
+        $application = JobApplicationModel::findOrFail($id);
+        $application->status = $request->status;
+        $application->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Application status updated successfully'
+        ]);
+    }
+
+    // Optional: Get application details for modal
+    public function getApplicationDetails($id)
+    {
+        $application = JobApplicationModel::with(['job', 'user'])->findOrFail($id);
+
+        return response()->json([
+            'application' => $application,
+            'html' => view('hr.partials.application-details', compact('application'))->render()
+        ]);
     }
 }
