@@ -164,6 +164,8 @@ class JobsListController extends Controller
                 'application_deadline' => 'nullable|date',
             ]);
 
+            $validated['posted_by'] = auth()->id();
+
             JobListModel::create($validated);
 
             return redirect()->route('hr.jobs')->with('success', 'Job posted successfully!');
