@@ -23,11 +23,17 @@ Route::get('/', function () {
         return match ($role) {
             'hr' => redirect()->route('hr.jobs'),
             'candidate' => redirect()->route('candidate.jobs'),
-            default => redirect('/login'),
+            default => redirect('/login')
         };
     }
     // Guest sees candidate jobs
     return redirect()->route('candidate.jobs');
+});
+
+// Guest
+Route::controller(JobsListController::class)->group(function () {
+    Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
+    Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
 });
 
 // Auth routes
@@ -46,8 +52,6 @@ Route::controller(JobsListController::class)->group(function () {
 
     // Candidate routes
     Route::middleware(['auth', 'role:candidate'])->group(function () {
-        Route::get('/candidate/job', 'indexForCandidate')->name('candidate.jobs');
-        Route::get('/jobs/{id}/detail', 'detail')->name('jobs.detail');
         Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
         Route::post('/jobs/{job}/apply', 'submitApplication')->name('jobs.submit');
     });

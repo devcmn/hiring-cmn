@@ -3,12 +3,18 @@
 @section('title', 'Browse Jobs - Hiring - CMN')
 @section('page-title', 'Find Your Opportunities')
 @section('page-subtitle', 'Explore opportunities from our companies')
-@section('user-initial', 'JD')
-@section('user-name', 'John Doe')
-@section('user-role', 'Candidate')
 
 @section('content')
     <div x-data="{ showModal: false, selectedJob: null }">
+        @if (!Auth::check())
+            <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 border border-yellow-500" role="alert">
+                <span class="font-medium">Welcome!</span>
+                Please <a href="{{ route('login') }}" class="font-medium text-yellow-900 underline hover:text-yellow-700">log
+                    in</a>
+                to apply for this job.
+            </div>
+        @endif
+
         <!-- Search & Filters -->
         @include('layouts.partials.candidate.filter')
 
