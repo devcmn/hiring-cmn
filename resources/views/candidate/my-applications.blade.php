@@ -58,8 +58,18 @@
                                         <div class="flex-1 min-w-0">
                                             <div class="flex items-start justify-between gap-2 mb-2">
                                                 <div>
-                                                    <h3 class="text-xl font-bold text-gray-900 mb-1">
-                                                        {{ $application->job->title }}</h3>
+                                                    <h3
+                                                        class="text-xl font-bold text-gray-900 mb-1 flex items-center gap-2">
+                                                        {{ $application->job->title }}
+                                                        <span
+                                                            class="mt-1 px-2 py-0.5 text-xs font-semibold rounded-full
+                                                                {{ $application->job->status === 'Active' ? 'bg-green-100 text-green-800' : '' }}
+                                                                {{ $application->job->status === 'Closed' ? 'bg-red-100 text-red-800' : '' }}
+                                                                {{ $application->job->status === 'Pending' ? 'bg-yellow-100 text-yellow-800' : '' }}
+                                                            ">
+                                                            {{ $application->job->status }}
+                                                        </span>
+                                                    </h3>
                                                     <p class="text-gray-600 font-medium">
                                                         {{ $application->job->company_name }}</p>
                                                 </div>
@@ -137,10 +147,12 @@
 
                                     {{-- Actions --}}
                                     <div class="flex gap-2">
-                                        <a href="{{ route('jobs.detail', $application->job->id) }}"
-                                            class="px-4 py-2 text-sm font-medium text-primary-900 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">
-                                            View Job
-                                        </a>
+                                        @if ($application->job->status !== 'Closed')
+                                            <a href="{{ route('jobs.detail', $application->job->id) }}"
+                                                class="px-4 py-2 text-sm font-medium text-primary-900 bg-primary-50 rounded-lg hover:bg-primary-100 transition-colors">
+                                                View Job
+                                            </a>
+                                        @endif
                                         <button onclick="showDetails({{ $application->id }})"
                                             class="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors">
                                             Details
