@@ -154,7 +154,6 @@ class JobsListController extends Controller
     }
 
     // HR
-    // HR Controller Method
     public function applicants()
     {
         // Get all jobs with their applications
@@ -204,14 +203,12 @@ class JobsListController extends Controller
         ]);
     }
 
-    // Optional: Get application details for modal
     public function getApplicationDetails($id)
     {
         $application = JobApplicationModel::with(['job', 'user'])->findOrFail($id);
 
         return response()->json([
-            'application' => $application,
-            'html' => view('hr.partials.application-details', compact('application'))->render()
+            'application' => $application
         ]);
     }
 }
