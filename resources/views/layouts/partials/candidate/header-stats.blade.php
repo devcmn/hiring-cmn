@@ -79,22 +79,30 @@
     <!-- Filters -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
         <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 items-start sm:items-center justify-between">
-            <div class="flex flex-wrap gap-2 w-full sm:w-auto">
-                <button class="px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn active"
-                    data-status="all">All</button>
-                <button class="px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
+            <div
+                class="flex w-full sm:w-auto overflow-x-auto no-scrollbar space-x-2 sm:space-x-0 sm:flex-wrap sm:gap-2">
+                <button
+                    class="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn active"
+                    data-status="all">
+                    All
+                </button>
+                <button
+                    class="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
                     data-status="pending">
                     <span class="w-2 h-2 bg-yellow-500 rounded-full inline-block mr-1"></span>Pending
                 </button>
-                <button class="px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
+                <button
+                    class="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
                     data-status="interview">
                     <span class="w-2 h-2 bg-purple-500 rounded-full inline-block mr-1"></span>Interview
                 </button>
-                <button class="px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
+                <button
+                    class="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
                     data-status="accepted">
                     <span class="w-2 h-2 bg-green-500 rounded-full inline-block mr-1"></span>Accepted
                 </button>
-                <button class="px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
+                <button
+                    class="flex-shrink-0 px-3 sm:px-4 py-2 rounded-lg font-medium text-sm transition-colors filter-btn"
                     data-status="rejected">
                     <span class="w-2 h-2 bg-red-500 rounded-full inline-block mr-1"></span>Rejected
                 </button>
