@@ -52,5 +52,15 @@
                 <span x-show="sidebarOpen" x-cloak>Applicants</span>
             </a>
         @endif
+        @if (Auth::user()->isAdmin())
+            <a href="{{ route('hr.jobs') }}"
+                class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('hr.jobs') ? 'bg-primary-800 text-white' : 'text-gray-300 hover:bg-primary-800 hover:text-white' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span x-show="sidebarOpen" x-cloak>Add User</span>
+            </a>
+        @endif
     @endauth
 </aside>
