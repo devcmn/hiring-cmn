@@ -45,7 +45,10 @@
                                         <h2 class="text-xl sm:text-2xl font-bold text-gray-900 break-words">
                                             {{ $job->title }}</h2>
                                         <span
-                                            class="mt-1 sm:mt-0 px-2 py-0.5 bg-green-100 text-green-800 text-xs font-semibold rounded-full w-max mx-auto sm:mx-0">Active</span>
+                                            class="mt-1 sm:mt-0 px-2 py-0.5 text-xs font-semibold rounded-full w-max mx-auto sm:mx-0 
+                                            {{ $job->status === 'Active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                            {{ $job->status }}
+                                        </span>
                                     </div>
                                     <p class="text-gray-600 mb-3 text-sm sm:text-base">{{ $job->company_name }}</p>
 
@@ -123,7 +126,7 @@
                                         <div class="flex items-start gap-4 flex-1 min-w-0">
                                             {{-- Avatar --}}
                                             <div
-                                                class="w-12 h-12 bg-gradient-to-br from-indigo-400 to-indigo-600 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
+                                                class="w-12 h-12 bg-primary-800 rounded-full flex items-center justify-center flex-shrink-0 shadow-sm">
                                                 <span class="text-white font-bold text-lg">
                                                     {{ substr($application->first_name, 0, 1) }}{{ substr($application->last_name, 0, 1) }}
                                                 </span>

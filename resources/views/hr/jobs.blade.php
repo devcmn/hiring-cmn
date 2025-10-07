@@ -5,29 +5,32 @@
 @section('page-subtitle', 'Manage and track your job postings')
 
 @section('content')
-    <div class="mb-6 flex items-center justify-between">
-        <div class="inline-flex rounded-lg overflow-hidden border border-gray-300">
+    <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0">
+        <!-- Filters -->
+        <div class="inline-flex flex-col sm:flex-row rounded-lg overflow-hidden border border-gray-300">
             <a href="{{ route('hr.jobs', ['filter' => 'all']) }}"
-                class="px-4 py-2 font-medium transition-colors
-        {{ ($filter ?? '') === 'all' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                class="px-4 py-2 font-medium transition-colors text-center
+            {{ ($filter ?? '') === 'all' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
                 All Jobs ({{ $activeCount + $closedCount }})
             </a>
 
             <a href="{{ route('hr.jobs', ['filter' => 'active']) }}"
-                class="px-4 py-2 font-medium transition-colors border-l border-gray-300
-        {{ ($filter ?? '') === 'active' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                class="px-4 py-2 font-medium transition-colors border-t sm:border-t-0 sm:border-l border-gray-300 text-center
+            {{ ($filter ?? '') === 'active' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
                 Active ({{ $activeCount }})
             </a>
 
             <a href="{{ route('hr.jobs', ['filter' => 'closed']) }}"
-                class="px-4 py-2 font-medium transition-colors border-l border-gray-300
-        {{ ($filter ?? '') === 'closed' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
+                class="px-4 py-2 font-medium transition-colors border-t sm:border-t-0 sm:border-l border-gray-300 text-center
+            {{ ($filter ?? '') === 'closed' ? 'bg-primary-950 text-white' : 'text-gray-600 hover:bg-gray-100' }}">
                 Closed ({{ $closedCount }})
             </a>
         </div>
+
+        <!-- Post Job Button -->
         <a href="{{ route('hr.post-job') }}"
-            class="flex items-center gap-x-2 px-3 py-2 border-2 border-primary-800 text-primary-800 font-semibold rounded-lg 
-            hover:bg-primary-800 hover:text-white transition-colors shadow-lg shadow-accent-500/30">
+            class="flex items-center justify-center gap-x-2 px-3 py-2 border-2 border-primary-800 text-primary-800 font-semibold rounded-lg 
+        hover:bg-primary-800 hover:text-white transition-colors shadow-lg shadow-accent-500/30 text-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                 stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" stroke-linejoin="round"
