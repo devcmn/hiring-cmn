@@ -187,7 +187,7 @@
                                             </label>
                                             <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">PDF up to 5MB</p>
+                                        <p class="text-xs text-gray-500">PDF up to 500 KB</p>
                                     </div>
                                 </div>
                                 <input id="resume" name="resume" type="file" class="hidden" accept=".pdf"
@@ -218,7 +218,7 @@
                                             </label>
                                             <p class="pl-1">or drag and drop</p>
                                         </div>
-                                        <p class="text-xs text-gray-500">PDF up to 5MB</p>
+                                        <p class="text-xs text-gray-500">PDF up to 500 KB</p>
                                     </div>
                                 </div>
                                 <input id="other_file" name="other_file" type="file" class="hidden" accept=".pdf"

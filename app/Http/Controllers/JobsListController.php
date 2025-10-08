@@ -56,8 +56,8 @@ class JobsListController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|email',
             'phone' => 'required|string|max:20',
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
-            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:512',
+            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:512',
             'cover_letter' => 'nullable|string',
         ]);
 
