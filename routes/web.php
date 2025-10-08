@@ -25,6 +25,7 @@ Route::get('/', function () {
         return match ($role) {
             'hr' => redirect()->route('hr.jobs'),
             'candidate' => redirect()->route('candidate.jobs'),
+            'admin' => redirect()->route('candidate.jobs'),
             default => redirect('/login')
         };
     }
