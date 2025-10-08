@@ -54,10 +54,14 @@
         @endif
         @if (Auth::user()->isAdmin())
             <a href="{{ route('admin.add-user') }}"
-                class="flex items-center space-x-3 px-4 py-3 rounded-lg {{ request()->routeIs('admin.add-user') ? 'bg-primary-800 text-white' : 'text-gray-300 hover:bg-primary-800 hover:text-white' }}">
-                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                class="flex items-center space-x-3 px-4 py-3 rounded-lg
+                {{ request()->routeIs('admin.add-user', 'admin.reset-password')
+                    ? 'bg-primary-800 text-white'
+                    : 'text-gray-300 hover:bg-primary-800 hover:text-white' }}">
+                <svg class="w-5 h-5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="size-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
                 </svg>
                 <span x-show="sidebarOpen" x-cloak>Add User</span>
             </a>

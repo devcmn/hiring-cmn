@@ -71,4 +71,24 @@ class RegisterController extends Controller
 
         return redirect()->back()->with('success', 'User created successfully!');
     }
+
+    public function showResetPasswordForm()
+    {
+        $users = User::all();
+        return view('admin.reset-password', compact('users'));
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'password' => 'required|confirmed|min:6',
+        ]);
+
+        $user = User::findOrFail($validated['user_id']);
+        $user->update([
+            'password' => $validated['password'],
+        ]);
+        return back()->with('success', 'Password has been successfully updated for ' . $user->name . '!');
+    }
 }

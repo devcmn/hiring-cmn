@@ -88,7 +88,12 @@ Route::controller(JobApplicationController::class)->group(function () {
 
 Route::controller(RegisterController::class)->group(function () {
     Route::middleware(['auth', 'role:admin'])->group(function () {
+        // Add new users
         Route::get('/admin/add-user', 'addUsers')->name('admin.add-user');
         Route::post('/admin/add-user', 'storeUser')->name('admin.store-user');
+
+        // Reset user password
+        Route::get('/admin/reset-password', 'showResetPasswordForm')->name('admin.reset-password');
+        Route::post('/admin/reset-password', 'resetPassword')->name('admin.reset-password.submit');
     });
 });

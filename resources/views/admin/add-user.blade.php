@@ -271,6 +271,25 @@
                     </svg>
                 </button>
             </form>
+            <!-- Divider -->
+            <div class="mt-6">
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Reset password?</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Login Link -->
+            <div class="mt-6">
+                <a href="{{ route('admin.reset-password') }}"
+                    class="w-full inline-flex justify-center items-center px-4 py-3 border border-primary-500 rounded-lg text-primary-500 bg-white hover:bg-primary-50 font-semibold transition-colors">
+                    Reset Password
+                </a>
+            </div>
         </div>
     </div>
 </div>
