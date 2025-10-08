@@ -208,33 +208,45 @@ function showApplicationModal(applicationId) {
 
                     <!-- Attachments -->
                     <section>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                            Attachments
-                        </h4>
-                        <div class="flex flex-wrap gap-3">
-                            ${
-                                app.cv_path
-                                    ? `
-                                        <a href="/storage/${app.cv_path}" target="_blank"
-                                           class="px-4 py-2 bg-primary-900 text-white text-sm font-medium rounded-lg hover:bg-primary-800 transition">
-                                           View CV
+                    <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                        Attachments
+                    </h4>
+                    <div class="flex flex-wrap gap-3">
+                        ${
+                            app.cv_path
+                                ? (() => {
+                                      const parts = app.cv_path.split("/");
+                                      // ['private', 'jobs', '5-head-it', 'klepon-lie', 'CV_Klepon_Lie.pdf']
+                                      const jobId = parts[2] ?? "";
+                                      const folder = parts[3] ?? "";
+                                      const filename = parts[4] ?? "";
+                                      const url = `/download/cv/${jobId}/${folder}/${filename}`;
+                                      return `
+                                        <a href="${url}" class="px-4 py-2 bg-primary-900 text-white text-sm font-medium rounded-lg hover:bg-primary-800 transition">
+                                            Download CV
                                         </a>
-                                    `
-                                    : '<p class="text-gray-500 text-sm">No CV uploaded</p>'
-                            }
-                            ${
-                                app.other_path
-                                    ? `
-                                        <a href="/storage/${app.other_path}" target="_blank"
-                                           class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition">
-                                           View Other File
+                                    `;
+                                  })()
+                                : '<p class="text-gray-500 text-sm">No CV uploaded</p>'
+                        }
+                        ${
+                            app.other_path
+                                ? (() => {
+                                      const parts = app.other_path.split("/");
+                                      const jobId = parts[2] ?? "";
+                                      const folder = parts[3] ?? "";
+                                      const filename = parts[4] ?? "";
+                                      const url = `/download/other/${jobId}/${folder}/${filename}`;
+                                      return `
+                                        <a href="${url}" class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition">
+                                            Download Other File
                                         </a>
-                                    `
-                                    : ""
-                            }
-                        </div>
-                    </section>
-
+                                    `;
+                                  })()
+                                : ""
+                        }
+                    </div>
+                </section>
                     <!-- Close Button -->
                     <div class="flex justify-end pt-4 border-t border-gray-200">
                         <button onclick="closeModal()"

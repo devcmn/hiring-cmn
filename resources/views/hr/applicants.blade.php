@@ -233,8 +233,15 @@
                                                 </svg>
                                                 View Details
                                             </button>
+                                            @php
+                                                $cvParts = explode('/', $application->cv_path); // ['private', 'jobs', '5-head-it', 'klepon-lie', 'CV_Klepon_Lie.pdf']
+                                                $type = 'cv';
+                                                $jobId = $cvParts[2] ?? '';
+                                                $folder = $cvParts[3] ?? '';
+                                                $filename = $cvParts[4] ?? '';
+                                            @endphp
 
-                                            <a href="{{ asset('storage/' . $application->resume) }}" target="_blank"
+                                            <a href="{{ route('file.download', [$type, $jobId, $folder, $filename]) }}"
                                                 class="px-4 py-2.5 bg-white border-2 border-gray-300 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors inline-flex items-center justify-center">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">

@@ -49,7 +49,6 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::controller(JobsListController::class)->group(function () {
-
     // Candidate routes
     Route::middleware(['auth', 'role:candidate'])->group(function () {
         Route::get('/jobs/{job}/apply', 'showApplyForm')->name('jobs.apply');
@@ -76,3 +75,7 @@ Route::controller(JobsListController::class)->group(function () {
         Route::get('/hr/applications/{id}/details', 'getApplicationDetails')->name('hr.applications.details');
     });
 });
+
+Route::get('/download/{type}/{jobId}/{folder}/{filename}', [App\Http\Controllers\FileController::class, 'download'])
+    ->where('filename', '.*')
+    ->name('file.download');
