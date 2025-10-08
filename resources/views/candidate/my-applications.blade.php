@@ -191,8 +191,14 @@
                                             <div class="flex justify-between">
                                                 <dt class="text-gray-600">Resume:</dt>
                                                 <dd>
-                                                    <a href="{{ asset('storage/' . $application->resume) }}"
-                                                        target="_blank"
+                                                    @php
+                                                        $pathParts = explode('/', $application->cv_path);
+                                                        $jobId = $pathParts[2] ?? '';
+                                                        $folder = $pathParts[3] ?? '';
+                                                        $filename = $pathParts[4] ?? '';
+                                                    @endphp
+
+                                                    <a href="{{ route('file.download', ['type' => 'cv', 'jobId' => $jobId, 'folder' => $folder, 'filename' => $filename]) }}"
                                                         class="text-primary-900 hover:underline font-medium flex items-center">
                                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor"
                                                             viewBox="0 0 24 24">
