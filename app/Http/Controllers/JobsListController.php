@@ -197,61 +197,6 @@ class JobsListController extends Controller
 
         return redirect()->route('hr.jobs')->with('success', 'Job updated successfully.');
     }
-    // END HR JOB
-
-    // HR APPLICANTS
-    public function applicants()
-    {
-        $jobs = JobListModel::with(['applications' => function ($query) {
-            $query->latest();
-        }])
-            ->whereHas('applications')
-            ->withCount('applications')
-            ->latest()
-            ->get();
-
-        // Stats
-        $allApplications = JobApplicationModel::all();
-        $totalApplications = $allApplications->count();
-        $pendingApplications = $allApplications->where('status', 'pending')->count();
-        $interviewApplications = $allApplications->where('status', 'interview')->count();
-        $acceptedApplications = $allApplications->where('status', 'accepted')->count();
-        $rejectedApplications = $allApplications->where('status', 'rejected')->count();
-
-        return view('hr.applicants', compact(
-            'jobs',
-            'totalApplications',
-            'pendingApplications',
-            'interviewApplications',
-            'acceptedApplications',
-            'rejectedApplications'
-        ));
-    }
-
-    public function updateApplicationStatus(Request $request, $id)
-    {
-        $request->validate([
-            'status' => 'required|in:pending,interview,accepted,rejected'
-        ]);
-
-        $application = JobApplicationModel::findOrFail($id);
-        $application->status = $request->status;
-        $application->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Application status updated successfully'
-        ]);
-    }
-
-    public function getApplicationDetails($id)
-    {
-        $application = JobApplicationModel::with(['job', 'user'])->findOrFail($id);
-
-        return response()->json([
-            'application' => $application
-        ]);
-    }
 
     public function closeJob(JobListModel $job)
     {
@@ -262,5 +207,5 @@ class JobsListController extends Controller
         $job->update(['status' => 'Closed']);
         return response()->json(['success' => true]);
     }
-    // END HR APPLICANTS
+    // END HR JOB
 }

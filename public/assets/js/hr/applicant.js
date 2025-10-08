@@ -122,41 +122,56 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateStatus(applicationId, newStatus) {
     if (!newStatus) return;
 
-    if (!confirm("Are you sure you want to update this application status?")) {
-        return;
-    }
-
-    fetch(`/hr/applications/${applicationId}/update-status`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}",
-        },
-        body: JSON.stringify({
-            status: newStatus,
-        }),
-    })
-        .then((response) => response.json())
-        .then((data) => {
-            if (data.success) {
-                // Show success message
-                showNotification("Status updated successfully!", "success");
-
-                // Reload page after short delay
-                setTimeout(() => {
-                    location.reload();
-                }, 1000);
-            } else {
-                showNotification("Failed to update status", "error");
-            }
-        })
-        .catch((error) => {
-            console.error("Error:", error);
-            showNotification(
-                "An error occurred while updating status",
-                "error"
-            );
-        });
+    Swal.fire({
+        title: "Are you sure?",
+        text: `Set this applicant status to "${newStatus}"?`,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#166534",
+        cancelButtonColor: "#a1a1aa",
+        confirmButtonText: "Yes, update it!",
+    }).then((result) => {
+        if (result.isConfirmed) {
+            fetch(`/applications/${applicationId}/status`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute("content"),
+                },
+                body: JSON.stringify({
+                    status: newStatus,
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Updated!",
+                            text: `Status changed to "${newStatus}".`,
+                            timer: 1500,
+                            showConfirmButton: false,
+                        }).then(() => location.reload());
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Failed!",
+                            text: "Failed to update status.",
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.error(err);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error!",
+                        text: "Something went wrong.",
+                    });
+                });
+        }
+    });
 }
 
 function showApplicationModal(applicationId) {

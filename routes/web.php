@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\JobApplicationController;
 use App\Http\Controllers\JobsListController;
 use Illuminate\Support\Facades\Route;
 
@@ -69,13 +71,17 @@ Route::controller(JobsListController::class)->group(function () {
         // Job Details
         Route::get('/hr/jobs/{id}/details', 'getJobDetails')->name('hr.jobs.details');
         Route::put('/hr/jobs/{job}/close', 'closeJob')->name('hr.jobs.close');
+    });
+});
 
-        // Applicant
+Route::controller(JobApplicationController::class)->group(function () {
+    Route::middleware(['auth', 'role:hr'])->group(function () {
+        Route::post('/applications/{id}/status', 'updateStatus')->name('applications.updateStatus');
         Route::get('/hr/applicants', 'applicants')->name('hr.applicants');
         Route::get('/hr/applications/{id}/details', 'getApplicationDetails')->name('hr.applications.details');
     });
 });
 
-Route::get('/download/{type}/{jobId}/{folder}/{filename}', [App\Http\Controllers\FileController::class, 'download'])
+Route::get('/download/{type}/{jobId}/{folder}/{filename}', [FileController::class, 'download'])
     ->where('filename', '.*')
     ->name('file.download');
