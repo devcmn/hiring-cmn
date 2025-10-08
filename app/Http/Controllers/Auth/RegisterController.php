@@ -43,4 +43,32 @@ class RegisterController extends Controller
             default => redirect('/'),
         };
     }
+
+    public function addUsers()
+    {
+        return view('admin.add-user');
+    }
+
+    public function storeUser(Request $request)
+    {
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:20'],
+            'email' => ['required', 'email', 'unique:users,email'],
+            'password' => ['required', 'confirmed', 'min:6'],
+            'role' => ['required', 'in:admin,hr,candidate'],
+        ]);
+
+        User::create([
+            'name' => $data['name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone' => $data['phone'],
+            'password' => $data['password'],
+            'role' => $data['role'],
+        ]);
+
+        return redirect()->back()->with('success', 'User created successfully!');
+    }
 }

@@ -50,6 +50,10 @@ Route::controller(RegisterController::class)->group(function () {
     Route::post('/register', 'register');
 });
 
+Route::get('/download/{type}/{jobId}/{folder}/{filename}', [FileController::class, 'download'])
+    ->where('filename', '.*')
+    ->name('file.download');
+
 Route::controller(JobsListController::class)->group(function () {
     // Candidate routes
     Route::middleware(['auth', 'role:candidate'])->group(function () {
@@ -82,6 +86,9 @@ Route::controller(JobApplicationController::class)->group(function () {
     });
 });
 
-Route::get('/download/{type}/{jobId}/{folder}/{filename}', [FileController::class, 'download'])
-    ->where('filename', '.*')
-    ->name('file.download');
+Route::controller(RegisterController::class)->group(function () {
+    Route::middleware(['auth', 'role:admin'])->group(function () {
+        Route::get('/admin/add-user', 'addUsers')->name('admin.add-user');
+        Route::post('/admin/add-user', 'storeUser')->name('admin.store-user');
+    });
+});
