@@ -120,4 +120,35 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const salaryInput = document.getElementById('salary');
+
+            function formatNumber(value) {
+                // Remove non-digits
+                value = value.replace(/\D/g, '');
+                // Format with dot as thousand separator
+                return value ? value.replace(/\B(?=(\d{3})+(?!\d))/g, '.') : '';
+            }
+
+            // Format the value once on page load
+            if (salaryInput.value) {
+                // Convert "9000000.00" → "9000000"
+                const numericValue = salaryInput.value.split('.')[0];
+                salaryInput.value = formatNumber(numericValue);
+            }
+
+            // Format on input while typing
+            salaryInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                e.target.value = formatNumber(value);
+            });
+
+            // Before submit, strip the dots so backend gets a clean number
+            salaryInput.form.addEventListener('submit', function() {
+                salaryInput.value = salaryInput.value.replace(/\./g, '');
+            });
+        });
+    </script>
 @endsection

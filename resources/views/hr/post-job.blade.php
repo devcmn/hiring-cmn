@@ -119,7 +119,6 @@
         </div>
     </div>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const salaryInput = document.getElementById('salary');
