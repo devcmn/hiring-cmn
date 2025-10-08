@@ -28,9 +28,8 @@
                             Company Name <span class="text-red-500">*</span>
                         </label>
                         <select id="company_name" name="company_name"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
+                            class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
-                            <option value="">Select company name</option>
                             <option value="PT. Ciptakom Media Nusa"
                                 {{ old('company_name', $job->company_name) == 'PT. Ciptakom Media Nusa' ? 'selected' : '' }}>
                                 CMN (PT. Ciptakom Media Nusa)</option>
@@ -56,9 +55,8 @@
                             Job Type <span class="text-red-500">*</span>
                         </label>
                         <select id="job_type" name="job_type"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
+                            class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
-                            <option value="">Select job type</option>
                             <option value="full-time"
                                 {{ old('job_type', $job->job_type) == 'Full-time' ? 'selected' : '' }}>Full-time</option>
                             <option value="Part-time"

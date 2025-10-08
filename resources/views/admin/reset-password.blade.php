@@ -69,8 +69,7 @@
                             Select User
                         </label>
                         <select name="user_id" id="user_id"
-                            class="block w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors appearance-none bg-white cursor-pointer @error('user_id') border-red-500 @enderror">
-                            <option value="">-- Choose a user --</option>
+                            class="choices-select block w-full px-4 py-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors appearance-none bg-white cursor-pointer @error('user_id') border-red-500 @enderror">
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->email }})</option>
                             @endforeach

@@ -178,7 +178,7 @@
                             </svg>
                         </div>
                         <select name="role" id="role"
-                            class="block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors appearance-none bg-white cursor-pointer @error('role') border-red-500 @enderror">
+                            class="choices-select block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg text-gray-700 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors appearance-none bg-white cursor-pointer @error('role') border-red-500 @enderror">
                             <option value="candidate">Candidate</option>
                             <option value="hr">HR</option>
                             <option value="admin">Admin</option>

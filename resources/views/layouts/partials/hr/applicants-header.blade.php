@@ -109,7 +109,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <select id="statusFilter"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                 <option value="all">All Status</option>
                 <option value="Active">Active</option>
                 <option value="Closed">Closed</option>
@@ -120,7 +120,7 @@
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
             <select id="dateFilter"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                 <option value="all">All Time</option>
                 <option value="today">Today</option>
                 <option value="week">This Week</option>

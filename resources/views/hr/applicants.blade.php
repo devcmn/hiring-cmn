@@ -255,8 +255,7 @@
                                             {{-- Quick Status Update --}}
                                             <div class="relative">
                                                 <select onchange="updateStatus({{ $application->id }}, this.value)"
-                                                    class="w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-sm font-semibold appearance-none cursor-pointer hover:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white transition-colors pr-10">
-                                                    <option value="">Update Status...</option>
+                                                    class="choices-select w-full px-4 py-2.5 border-2 border-gray-300 rounded-lg text-sm font-semibold appearance-none cursor-pointer hover:border-primary-500 focus:ring-2 focus:ring-primary-500 focus:border-primary-500 bg-white transition-colors pr-10">
                                                     <option value="pending"
                                                         {{ $application->status == 'pending' ? 'disabled selected' : '' }}>
                                                         {{ $application->status == 'pending' ? 'Pending' : 'Set Pending' }}

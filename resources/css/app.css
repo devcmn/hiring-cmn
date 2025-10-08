@@ -1,3 +1,53 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Make Choices.js match your Tailwind styling */
+.choices__inner {
+    min-height: 48px !important;
+    padding: 0.75rem 1rem !important;
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.5rem !important;
+    background-color: white !important;
+    font-size: 1rem !important;
+}
+
+.choices__list--single {
+    padding: 0 !important;
+}
+
+.choices[data-type*="select-one"] .choices__input {
+    background-color: transparent !important;
+    margin-bottom: 0 !important;
+    padding: 0 !important;
+}
+
+/* Dropdown styling */
+.choices__list--dropdown {
+    border: 1px solid #d1d5db !important;
+    border-radius: 0.5rem !important;
+    margin-top: 0.25rem !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1) !important;
+}
+
+.choices__list--dropdown .choices__item--selectable {
+    padding: 0.75rem 1rem !important;
+}
+
+.choices__list--dropdown .choices__item--selectable.is-highlighted {
+    background-color: #f3f4f6 !important;
+}
+
+/* Make the search input bigger when dropdown is open */
+.choices__list--dropdown .choices__input {
+    padding: 0.75rem 1rem !important; /* Increased padding */
+    font-size: 1rem !important; /* Increased font size */
+    background-color: #f9fafb !important; /* Light background */
+    border-bottom: 1px solid #e5e7eb !important; /* Border to separate from options */
+    margin-bottom: 0.5rem !important;
+}
+
+/* Remove the original select styling since Choices replaces it */
+.choices {
+    margin-bottom: 0 !important;
+}

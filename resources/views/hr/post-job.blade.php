@@ -26,9 +26,8 @@
                             Company Name <span class="text-red-500">*</span>
                         </label>
                         <select id="company_name" name="company_name"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
+                            class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
-                            <option value="">Select company name</option>
                             <option value="PT. Ciptakom Media Nusa">CMN (PT. Ciptakom Media Nusa)</option>
                             <option value="PT. Ciptakomunindo Pradipta">CP (PT. Ciptakomunindo Pradipta)</option>
                         </select>
@@ -50,9 +49,8 @@
                             Job Type <span class="text-red-500">*</span>
                         </label>
                         <select id="job-type" name="job_type"
-                            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
+                            class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all"
                             required>
-                            <option value="">Select job type</option>
                             <option value="full-time">Full-time</option>
                             <option value="part-time">Part-time</option>
                             <option value="contract">Contract</option>
