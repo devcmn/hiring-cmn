@@ -173,6 +173,30 @@ class JobsListController extends Controller
             return redirect()->back()->with('error', 'Failed to post job: ' . $e->getMessage());
         }
     }
+
+    public function edit(JobListModel $job)
+    {
+        return view('hr.edit', compact('job'));
+    }
+
+    public function update(Request $request, JobListModel $job)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'company_name' => 'required|string',
+            'location' => 'required|string',
+            'job_type' => 'required|string',
+            'salary' => 'nullable|numeric',
+            'application_deadline' => 'nullable|date',
+            'description' => 'required|string',
+            'requirements' => 'required|string',
+            'benefits' => 'nullable|string',
+        ]);
+
+        $job->update($validated);
+
+        return redirect()->route('hr.jobs')->with('success', 'Job updated successfully.');
+    }
     // END HR JOB
 
     // HR APPLICANTS

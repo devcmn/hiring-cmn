@@ -59,9 +59,13 @@ Route::controller(JobsListController::class)->group(function () {
 
     // HR routes
     Route::middleware(['auth', 'role:hr'])->group(function () {
+        // Job Management
         Route::get('/hr/job', 'indexForHr')->name('hr.jobs');
         Route::get('/hr/post-job', 'postJob')->name('hr.post-job');
         Route::post('/hr/jobs-store', 'storeJobs')->name('jobs.store');
+
+        Route::get('/jobs/{job}/edit', 'edit')->name('jobs.edit');
+        Route::put('/jobs/{job}', 'update')->name('jobs.update');
 
         // Job Details
         Route::get('/hr/jobs/{id}/details', 'getJobDetails')->name('hr.jobs.details');
