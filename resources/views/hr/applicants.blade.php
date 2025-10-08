@@ -34,7 +34,7 @@
         {{-- Job Categories with Applications --}}
         <div class="space-y-6">
             @forelse($jobs as $job)
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="job-card bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                     {{-- Job Header --}}
                     <div class="bg-gradient-to-r from-gray-50 to-white p-4 sm:p-6 border-b border-gray-200">
                         <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
@@ -119,6 +119,7 @@
                         @forelse($job->applications as $index => $application)
                             <div class="application-item border-b border-gray-200 hover:bg-gray-50 transition-colors duration-150"
                                 data-status="{{ $application->status }}"
+                                data-created="{{ $application->created_at->format('Y-m-d H:i:s') }}"
                                 style="animation: slideDown 0.3s ease-out {{ $index * 0.05 }}s both;">
                                 <div class="p-6">
                                     <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">

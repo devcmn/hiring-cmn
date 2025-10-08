@@ -7,28 +7,115 @@ function toggleJobApplications(jobId) {
 }
 
 // Status filter
-document.getElementById("statusFilter").addEventListener("change", function () {
-    const status = this.value;
-    const applications = document.querySelectorAll(".application-item");
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const statusFilter = document.getElementById("statusFilter");
+    const dateFilter = document.getElementById("dateFilter");
 
-    applications.forEach((app) => {
-        if (status === "all" || app.dataset.status === status) {
-            app.style.display = "block";
-        } else {
-            app.style.display = "none";
-        }
-    });
-});
+    const filterJobs = () => {
+        const search = searchInput?.value.toLowerCase().trim() || "";
+        const status = statusFilter?.value.toLowerCase().trim() || "all";
+        const date = dateFilter?.value.toLowerCase().trim() || "all";
 
-// Search functionality
-document.getElementById("searchInput").addEventListener("input", function () {
-    const searchTerm = this.value.toLowerCase();
-    const applications = document.querySelectorAll(".application-item");
+        // 🔁 Always refresh jobCards in case new ones are injected
+        const jobCards = document.querySelectorAll(".job-card");
 
-    applications.forEach((app) => {
-        const text = app.textContent.toLowerCase();
-        app.style.display = text.includes(searchTerm) ? "block" : "none";
-    });
+        jobCards.forEach((card) => {
+            const title =
+                card.querySelector("h2")?.textContent.toLowerCase() || "";
+            const jobStatus =
+                card
+                    .querySelector("span.rounded-full")
+                    ?.textContent.toLowerCase()
+                    .trim() || "";
+            const applications = card.querySelectorAll(".application-item");
+
+            let jobVisible = false;
+
+            // If no applications, just check the job itself
+            if (applications.length === 0) {
+                let show = true;
+                if (search && !title.includes(search)) show = false;
+                if (status !== "all" && jobStatus !== status) show = false;
+                card.style.display = show ? "" : "none";
+                return;
+            }
+
+            // Otherwise, filter each application
+            applications.forEach((app) => {
+                const appName =
+                    app.querySelector("h4")?.textContent.toLowerCase() || "";
+                const appStatus = app.dataset.status?.toLowerCase() || "";
+                const createdAtText =
+                    app
+                        .querySelector("span.text-gray-600")
+                        ?.textContent.toLowerCase() || "";
+                const createdAtISO = app.dataset.created; // optional ISO date
+
+                let show = true;
+
+                // 🔍 Search
+                if (
+                    search &&
+                    !title.includes(search) &&
+                    !appName.includes(search)
+                ) {
+                    show = false;
+                }
+
+                // 🟢 Status
+                if (
+                    status !== "all" &&
+                    appStatus !== status &&
+                    jobStatus !== status
+                ) {
+                    show = false;
+                }
+
+                // 📅 Date
+                if (date !== "all") {
+                    let daysAgo = null;
+
+                    if (createdAtISO) {
+                        // Prefer ISO timestamp
+                        const createdAt = new Date(createdAtISO);
+                        const diffMs = new Date() - createdAt;
+                        daysAgo = diffMs / (1000 * 60 * 60 * 24);
+                    } else if (createdAtText) {
+                        // Fallback to relative text like "2 days ago"
+                        if (createdAtText.includes("hour")) daysAgo = 0;
+                        else if (createdAtText.includes("day")) {
+                            const match = createdAtText.match(/(\d+)/);
+                            daysAgo = match ? parseInt(match[1]) : 1;
+                        } else if (createdAtText.includes("week")) {
+                            const match = createdAtText.match(/(\d+)/);
+                            daysAgo = match ? parseInt(match[1]) * 7 : 7;
+                        } else if (createdAtText.includes("month")) {
+                            const match = createdAtText.match(/(\d+)/);
+                            daysAgo = match ? parseInt(match[1]) * 30 : 30;
+                        }
+                    }
+
+                    if (daysAgo !== null) {
+                        if (date === "today" && daysAgo > 1) show = false;
+                        else if (date === "week" && daysAgo > 7) show = false;
+                        else if (date === "month" && daysAgo > 30) show = false;
+                    }
+                }
+
+                app.style.display = show ? "" : "none";
+                if (show) jobVisible = true;
+            });
+
+            // Hide entire job if none of its applications are visible
+            card.style.display = jobVisible ? "" : "none";
+        });
+    };
+
+    // Real-time event listeners
+    searchInput?.addEventListener("input", filterJobs);
+    statusFilter?.addEventListener("change", filterJobs);
+    dateFilter?.addEventListener("change", filterJobs);
 });
 
 // Update application status

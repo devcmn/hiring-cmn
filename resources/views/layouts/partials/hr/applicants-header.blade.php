@@ -89,14 +89,13 @@
     </div>
 </div>
 
-{{-- Filters and Search --}}
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         {{-- Search --}}
         <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Search Candidates</label>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Search Jobs</label>
             <div class="relative">
-                <input type="text" id="searchInput" placeholder="Search by name, email, or phone..."
+                <input type="text" id="searchInput" placeholder="Search by job title..."
                     class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                 <svg class="absolute left-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -112,40 +111,21 @@
             <select id="statusFilter"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                 <option value="all">All Status</option>
-                <option value="pending">Pending</option>
-                <option value="interview">Interview</option>
-                <option value="accepted">Accepted</option>
-                <option value="rejected">Rejected</option>
+                <option value="Active">Active</option>
+                <option value="Closed">Closed</option>
             </select>
         </div>
 
         {{-- Date Filter --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-2">Date Range</label>
-            <select
+            <select id="dateFilter"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500">
                 <option value="all">All Time</option>
                 <option value="today">Today</option>
                 <option value="week">This Week</option>
                 <option value="month">This Month</option>
-                <option value="custom">Custom Range</option>
             </select>
         </div>
     </div>
-
-    {{-- Quick Action Buttons --}}
-    {{-- <div class="flex flex-wrap gap-2 mt-4 pt-4 border-t border-gray-200">
-        <button
-            class="px-4 py-2 bg-primary-900 text-white rounded-lg hover:bg-primary-800 transition-colors text-sm font-medium">
-            Export to Excel
-        </button>
-        <button
-            class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-            Download Reports
-        </button>
-        <button
-            class="px-4 py-2 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">
-            Send Bulk Email
-        </button>
-    </div> --}}
 </div>

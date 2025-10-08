@@ -202,21 +202,16 @@ class JobsListController extends Controller
     // HR APPLICANTS
     public function applicants()
     {
-        // Get all jobs with their applications
-        $jobs = JobListModel::with(
-            ['applications' => function ($query) {
-                $query->latest();
-            }]
-        )
+        $jobs = JobListModel::with(['applications' => function ($query) {
+            $query->latest();
+        }])
             ->whereHas('applications')
             ->withCount('applications')
             ->latest()
             ->get();
 
-        // Get all applications for statistics
+        // Stats
         $allApplications = JobApplicationModel::all();
-
-        // Calculate statistics
         $totalApplications = $allApplications->count();
         $pendingApplications = $allApplications->where('status', 'pending')->count();
         $interviewApplications = $allApplications->where('status', 'interview')->count();
