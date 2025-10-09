@@ -21,23 +21,20 @@
         <!-- Job Listings Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse ($jobs as $job)
-                <div
-                    class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all hover:border-primary-600">
+                <div class="job-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all hover:border-primary-600"
+                    data-type="{{ strtolower($job->job_type) }}">
+
                     <div class="flex items-start justify-between mb-4">
                         <div
                             class="w-14 h-14 bg-primary-800 rounded-xl flex items-center justify-center text-white font-bold text-xl">
                             {{ strtoupper(substr($job->title, 0, 2)) }}
                         </div>
-                        {{-- <button class="p-2 text-gray-400 hover:text-red-500 transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                            </svg>
-                        </button> --}}
                     </div>
 
                     <h3 class="text-xl font-bold text-gray-900 mb-1">{{ $job->title }}</h3>
-                    <p class="text-sm text-gray-600 mb-3">{{ $job->company_name }}</p>
+                    <p class="text-sm text-gray-600 mb-5 company-name">{{ $job->company_name }}
+                        ({{ ucfirst($job->job_type) }})
+                    </p>
 
                     <p class="text-sm text-gray-700 mb-4 line-clamp-3">
                         {{ Str::limit($job->description, 150) }}
@@ -89,4 +86,6 @@
         <!-- Application Modal -->
         @include('candidate.modal.candidate-modal')
     </div>
+
+    <script src={{ asset('assets/js/candidate/job.js') }}></script>
 @endsection
