@@ -72,7 +72,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <textarea name="work_experience[${workExperienceCount}][responsibilities]" rows="3"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                             placeholder="Describe your key responsibilities and achievements in this role..."></textarea>
-                        <p class="text-xs text-gray-500 mt-1">Tip: Use bullet points or separate with line breaks</p>
+                        <p class="text-xs text-gray-500 mt-1">Tip: Use bullet points, commas, or separate with line breaks</p>
                     </div>
                 </div>
             </div>

@@ -222,7 +222,7 @@
         <div class="mb-2">
             <label class="inline-flex items-center cursor-pointer">
                 <input type="checkbox" id="sameAsKTP"
-                    class="mr-2 h-4 w-4 text-primary-900 border-gray-300 rounded focus:ring-primary-500">
+                    class="mr-2 h-4 w-4 text-primary-900 border border-gray-300 rounded focus:ring-primary-500">
                 <span class="text-sm text-gray-600">Same as domicile address</span>
             </label>
         </div>

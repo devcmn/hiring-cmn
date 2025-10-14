@@ -35,7 +35,7 @@
             </div>
         </div>
         <input id="resume" name="resume" type="file" class="hidden" accept=".pdf,.doc,.docx"
-            onchange="updateFileName('resume', 'fileNameResume')" required>
+            onchange="updateFileName('resume', 'fileNameResume')">
         <p id="fileNameResume" class="text-sm text-gray-600 mt-2 hidden"></p>
         @error('resume')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -135,35 +135,3 @@ I am writing to express my strong interest in this position. With my background 
         </div>
     </div>
 </div>
-
-<script>
-    // Character counter for cover letter
-    const coverLetter = document.querySelector('textarea[name="cover_letter"]');
-    const charCount = document.getElementById('charCount');
-
-    if (coverLetter && charCount) {
-        // Initialize counter with existing value
-        charCount.textContent = coverLetter.value.length;
-
-        coverLetter.addEventListener('input', function(e) {
-            charCount.textContent = e.target.value.length;
-        });
-    }
-
-    // File name display function
-    function updateFileName(inputId, displayId) {
-        const input = document.getElementById(inputId);
-        const fileDisplay = document.getElementById(displayId);
-        const file = input.files[0];
-
-        if (file) {
-            const fileSize = (file.size / 1024 / 1024).toFixed(2); // Convert to MB
-            fileDisplay.innerHTML =
-                `<span class="text-green-600 font-medium">✓ ${file.name}</span> <span class="text-gray-500">(${fileSize} MB)</span>`;
-            fileDisplay.classList.remove('hidden');
-        } else {
-            fileDisplay.textContent = '';
-            fileDisplay.classList.add('hidden');
-        }
-    }
-</script>

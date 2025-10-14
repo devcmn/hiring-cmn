@@ -129,17 +129,16 @@
                                 class="hidden flex-1 sm:flex-none px-6 py-3 text-center text-gray-700 bg-white border-2 border-gray-300 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
                                 ← Previous
                             </button>
-                            <div class="flex-1"></div>
-                            <a href="{{ route('jobs.detail', $job->id) }}" id="cancelBtn"
+                            {{-- <a href="{{ route('jobs.detail', $job->id) }}" id="cancelBtn"
                                 class="flex-1 sm:flex-none px-6 py-3 text-center text-gray-700 bg-white border-2 border-gray-300 font-semibold rounded-lg hover:bg-gray-50 transition-colors">
                                 Cancel
-                            </a>
+                            </a> --}}
                             <button type="button" id="nextBtn"
-                                class="flex-1 px-8 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md flex items-center justify-center">
-                                Next →
+                                class="flex-1 px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md flex items-center justify-center">
+                                Next
                             </button>
                             <button type="submit" id="submitBtn"
-                                class="hidden flex-1 px-8 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md flex items-center justify-center">
+                                class="hidden flex-1 px-6 py-3 bg-primary-900 text-white font-semibold rounded-lg hover:bg-primary-800 transition-all shadow-sm hover:shadow-md flex items-center justify-center">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -160,5 +159,6 @@
         <script src="{{ asset('assets/js/candidate/family-info.js') }}"></script>
         <script src="{{ asset('assets/js/candidate/educations.js') }}"></script>
         <script src="{{ asset('assets/js/candidate/work-experience.js') }}"></script>
+        <script src="{{ asset('assets/js/candidate/documents.js') }}"></script>
     @endpush
 @endsection
