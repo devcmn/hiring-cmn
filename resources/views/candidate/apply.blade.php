@@ -157,5 +157,8 @@
     </div>
     @push('scripts')
         <script src="{{ asset('assets/js/candidate/stepper.js') }}"></script>
+        <script src="{{ asset('assets/js/candidate/family-info.js') }}"></script>
+        <script src="{{ asset('assets/js/candidate/educations.js') }}"></script>
+        <script src="{{ asset('assets/js/candidate/work-experience.js') }}"></script>
     @endpush
 @endsection
