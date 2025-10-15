@@ -12,6 +12,10 @@
     font-size: 1rem !important;
 }
 
+.choices__inner.border-red-500 {
+    border-color: #ef4444 !important; /* Tailwind red-500 */
+}
+
 .choices__list--single {
     padding: 0 !important;
 }

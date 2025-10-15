@@ -78,11 +78,27 @@ document.addEventListener("DOMContentLoaded", function () {
         let valid = true;
 
         requiredFields.forEach((field) => {
-            if (!field.value.trim()) {
-                field.classList.add("border-red-500");
+            const isEmpty = !field.value.trim();
+            const choicesContainer = field.closest(".choices");
+
+            if (isEmpty) {
+                // Add red border to the correct element
+                if (choicesContainer) {
+                    choicesContainer
+                        .querySelector(".choices__inner")
+                        ?.classList.add("border", "border-red-500");
+                } else {
+                    field.classList.add("border", "border-red-500");
+                }
                 valid = false;
             } else {
-                field.classList.remove("border-red-500");
+                if (choicesContainer) {
+                    choicesContainer
+                        .querySelector(".choices__inner")
+                        ?.classList.remove("border-red-500");
+                } else {
+                    field.classList.remove("border-red-500");
+                }
             }
         });
 

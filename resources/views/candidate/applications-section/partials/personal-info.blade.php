@@ -124,7 +124,7 @@
                 Gender <span class="text-red-500">*</span>
             </label>
             <select name="gender"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('gender') border-red-500 @enderror"
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('gender') border-red-500 @enderror"
                 required>
                 <option value="">Select</option>
                 <option value="male" {{ old('gender') == 'male' ? 'selected' : '' }}>Male</option>
@@ -140,7 +140,7 @@
                 Religion <span class="text-red-500">*</span>
             </label>
             <select name="religion"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('religion') border-red-500 @enderror"
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('religion') border-red-500 @enderror"
                 required>
                 <option value="">Select</option>
                 <option value="islam" {{ old('religion') == 'islam' ? 'selected' : '' }}>Islam</option>
@@ -160,7 +160,7 @@
                 Blood Type <span class="text-gray-500">(Optional)</span>
             </label>
             <select name="blood_type"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                 <option value="">Select</option>
                 <option value="A" {{ old('blood_type') == 'A' ? 'selected' : '' }}>A</option>
                 <option value="B" {{ old('blood_type') == 'B' ? 'selected' : '' }}>B</option>
@@ -176,7 +176,7 @@
                 Marital Status <span class="text-red-500">*</span>
             </label>
             <select name="marital_status"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('marital_status') border-red-500 @enderror"
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('marital_status') border-red-500 @enderror"
                 required>
                 <option value="">Select</option>
                 <option value="single" {{ old('marital_status') == 'single' ? 'selected' : '' }}>Single</option>
@@ -241,7 +241,7 @@
                 Housing Status <span class="text-red-500">*</span>
             </label>
             <select name="housing_type"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('housing_type') border-red-500 @enderror"
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('housing_type') border-red-500 @enderror"
                 required>
                 <option value="">Select</option>
                 <option value="owned" {{ old('housing_type') == 'owned' ? 'selected' : '' }}>Owned</option>
@@ -258,15 +258,15 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                Vehicle Type <span class="text-gray-500">(Optional)</span>
+                Vehicle Type <span class="text-gray-500"><span class="text-red-500">*</span></span>
             </label>
             <select name="vehicle_type"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                required>
                 <option value="">Select</option>
                 <option value="motorcycle" {{ old('vehicle_type') == 'motorcycle' ? 'selected' : '' }}>Motorcycle
                 </option>
                 <option value="car" {{ old('vehicle_type') == 'car' ? 'selected' : '' }}>Car</option>
-                <option value="both" {{ old('vehicle_type') == 'both' ? 'selected' : '' }}>Both</option>
                 <option value="none" {{ old('vehicle_type') == 'none' ? 'selected' : '' }}>None</option>
             </select>
         </div>
@@ -278,7 +278,7 @@
                 Vehicle Owner <span class="text-gray-500">(Optional)</span>
             </label>
             <select name="vehicle_owner"
-                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                 <option value="">Select</option>
                 <option value="self" {{ old('vehicle_owner') == 'self' ? 'selected' : '' }}>Self</option>
                 <option value="parents" {{ old('vehicle_owner') == 'parents' ? 'selected' : '' }}>Parents</option>
@@ -301,7 +301,7 @@
     {{-- Photo Upload --}}
     <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">
-            Photo <span class="text-gray-500">(Optional)</span>
+            Photo (3 x 4)<span class="text-gray-500"><span class="text-red-500">*</span></span>
         </label>
         <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-primary-500 transition-colors cursor-pointer"
             onclick="document.getElementById('photo').click()">
@@ -319,7 +319,7 @@
                     </label>
                     <p class="pl-1">or drag and drop</p>
                 </div>
-                <p class="text-xs text-gray-500">PNG, JPG up to 2MB</p>
+                <p class="text-xs text-gray-500">PNG, JPG up to 1MB</p>
             </div>
         </div>
         <input id="photo" name="photo" type="file" class="hidden" accept="image/jpeg,image/png,image/jpg"
