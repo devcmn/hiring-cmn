@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const template = `
             <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 relative work-experience-item" data-index="${workExperienceCount}">
                 <button type="button" onclick="removeWorkExperience(${workExperienceCount})"
-                    class="absolute top-2 right-2 text-red-600 hover:text-red-800 transition-colors">
+                    class="absolute top-2 right-2 z-10 text-red-600 hover:text-red-800 transition-colors">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

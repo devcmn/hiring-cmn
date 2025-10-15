@@ -55,3 +55,13 @@
 .choices {
     margin-bottom: 0 !important;
 }
+
+.family-member-item button,
+.spouse-child-item button,
+.education-item button,
+.seminar-item button,
+.organization-item button,
+.work-experience-item button {
+    right: 0.5rem !important;
+    left: auto !important;
+}

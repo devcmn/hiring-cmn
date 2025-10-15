@@ -191,7 +191,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-2">
-                National ID (KTP) <span class="text-red-500">*</span>
+                NIK (KTP) <span class="text-red-500">*</span>
             </label>
             <input type="text" name="national_id" value="{{ old('national_id') }}" maxlength="16"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('national_id') border-red-500 @enderror"
