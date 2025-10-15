@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const currentStepEl = document.querySelector(
             `.form-step[data-step="${step}"]`
         );
-        if (!currentStepEl) return; // prevent error if step not found
+        if (!currentStepEl) return;
         currentStepEl.classList.remove("hidden");
         currentStepEl.classList.add("active");
 
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const indicator = el.querySelector(".step-indicator");
             const text = el.querySelector("span");
 
-            if (!indicator) return; // ← prevent null crash
+            if (!indicator) return;
 
             if (stepNum < step) {
                 indicator.classList.add("bg-green-500", "text-white");
@@ -99,7 +99,6 @@ document.addEventListener("DOMContentLoaded", function () {
         return valid;
     }
 
-    // ✅ Buttons will now exist
     document.getElementById("nextBtn")?.addEventListener("click", (e) => {
         e.preventDefault();
         if (currentStep < totalSteps && validateStep(currentStep)) {
@@ -114,6 +113,53 @@ document.addEventListener("DOMContentLoaded", function () {
             currentStep--;
             showStep(currentStep);
         }
+    });
+
+    // ✅ ADD THIS: Handle form submission on last step
+    const form = document.querySelector("form");
+    const submitBtn = document.getElementById("submitBtn");
+
+    submitBtn?.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        // Validate the final step
+        if (!validateStep(currentStep)) {
+            return;
+        }
+
+        // Check if resume is uploaded (from your documents.js)
+        const resumeInput = document.getElementById("resume");
+        if (
+            resumeInput &&
+            (!resumeInput.files || resumeInput.files.length === 0)
+        ) {
+            Swal.fire({
+                icon: "warning",
+                title: "Resume Required",
+                text: "Please upload your resume before submitting.",
+                confirmButtonColor: "#166534",
+                confirmButtonText: "OK",
+            });
+            return;
+        }
+
+        // Check file size
+        if (resumeInput && resumeInput.files[0]) {
+            const file = resumeInput.files[0];
+            if (file.size > 2 * 1024 * 1024) {
+                Swal.fire({
+                    icon: "error",
+                    title: "File Too Large",
+                    text: "Resume must be less than 2MB.",
+                    confirmButtonColor: "#166534",
+                    confirmButtonText: "OK",
+                });
+                return;
+            }
+        }
+
+        // All validations passed - submit the form
+        form?.submit();
     });
 
     // Initialize
