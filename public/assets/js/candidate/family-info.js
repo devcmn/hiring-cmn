@@ -150,18 +150,21 @@ document.addEventListener("DOMContentLoaded", function () {
     if (maritalStatusSelect) {
         const spouseSection = document.getElementById("spouseChildrenSection");
 
-        maritalStatusSelect.addEventListener("change", function () {
-            if (this.value === "married") {
+        function toggleSpouseSection(value) {
+            if (value && value !== "single") {
                 spouseSection.classList.remove("hidden");
             } else {
                 spouseSection.classList.add("hidden");
             }
+        }
+
+        // Listen for change
+        maritalStatusSelect.addEventListener("change", function () {
+            toggleSpouseSection(this.value);
         });
 
-        // Check initial value
-        if (maritalStatusSelect.value === "married") {
-            spouseSection.classList.remove("hidden");
-        }
+        // Check initial value (for edit forms or old values)
+        toggleSpouseSection(maritalStatusSelect.value);
     }
 
     // --- Add initial family member on load ---
