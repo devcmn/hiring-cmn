@@ -17,7 +17,7 @@ class JobsListController extends Controller
         $jobs = JobListModel::where('status', 'Active')
             ->where(function ($q) {
                 $q->whereNull('application_deadline')
-                    ->orWhere('application_deadline', '>=', now());
+                    ->orWhere('application_deadline', '>=', today());
             })
             ->latest()
             ->get();
