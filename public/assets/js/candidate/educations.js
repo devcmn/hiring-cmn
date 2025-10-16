@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 GPA/Grade (Optional)
                             </label>
-                            <input type="text" name="education[${educationCount}][note]"
+                            <input type="text" name="education[${educationCount}][grade]"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 placeholder="3.75/4.00">
                         </div>
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Organizer (Optional)
                             </label>
-                            <input type="text" name="seminars[${seminarCount}][note]"
+                            <input type="text" name="seminars[${seminarCount}][organizer]"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 placeholder="Organizer name">
                         </div>
@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             <label class="block text-sm font-semibold text-gray-700 mb-2">
                                 Status
                             </label>
-                            <select name="organizations[${organizationCount}][note]"
+                            <select name="organizations[${organizationCount}][status]"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                                 <option value="">Select</option>
                                 <option value="Active">Active</option>

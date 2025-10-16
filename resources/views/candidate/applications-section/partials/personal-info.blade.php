@@ -148,7 +148,7 @@
                 <option value="catholic" {{ old('religion') == 'catholic' ? 'selected' : '' }}>Catholic</option>
                 <option value="hindu" {{ old('religion') == 'hindu' ? 'selected' : '' }}>Hindu</option>
                 <option value="buddha" {{ old('religion') == 'buddha' ? 'selected' : '' }}>Buddha</option>
-                <option value="confucius" {{ old('religion') == 'confucius' ? 'selected' : '' }}>Confucius</option>
+                <option value="konghucu" {{ old('religion') == 'konghucu' ? 'selected' : '' }}>Konghucu</option>
             </select>
             @error('religion')
                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
