@@ -52,25 +52,99 @@ class JobsListController extends Controller
     public function submitApplication(Request $request, JobListModel $job)
     {
         $request->validate([
+            // Personal Information
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email',
+            'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:512',
-            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:512',
-            'cover_letter' => 'nullable|string',
+            'home_phone' => 'nullable|string|max:20',
+            'birth_place' => 'required|string|max:255',
+            'birth_date' => 'required|date',
+            'gender' => 'required|in:male,female',
+            'religion' => 'required|in:islam,christian,catholic,hindu,buddha,confucius',
+            'blood_type' => 'nullable|in:A,B,AB,O',
+            'marital_status' => 'required|in:single,married,divorced,widowed',
+            'national_id' => 'required|string|max:16',
+            'domicile_address' => 'required|string',
+            'current_address' => 'required|string',
+            'housing_type' => 'required|in:owned,rented,parents,dormitory',
+            'vehicle_type' => 'required|in:motorcycle,car,none',
+            'vehicle_owner' => 'nullable|in:self,parents,spouse,company',
+            'vehicle_year' => 'nullable|integer|min:1900|max:2030',
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:1024',
+
+            // Family Members
+            'family_members' => 'nullable|array',
+            'family_members.*.relation' => 'required_with:family_members|in:father,mother,sibling,other',
+            'family_members.*.name' => 'required_with:family_members|string|max:255',
+            'family_members.*.age' => 'nullable|integer|min:0|max:150',
+            'family_members.*.occupation' => 'nullable|string|max:255',
+            'family_members.*.phone' => 'nullable|string|max:20',
+            'family_members.*.address' => 'nullable|string',
+
+            // Spouse & Children
+            'spouse_children' => 'nullable|array',
+            'spouse_children.*.relation' => 'required_with:spouse_children|in:spouse,child',
+            'spouse_children.*.name' => 'required_with:spouse_children|string|max:255',
+            'spouse_children.*.birth_date' => 'nullable|date',
+            'spouse_children.*.occupation' => 'nullable|string|max:255',
+            'spouse_children.*.education' => 'nullable|string|max:255',
+
+            // Education
+            'education' => 'nullable|array',
+            'education.*.name' => 'required_with:education|string|max:255',
+            'education.*.major_or_topic' => 'nullable|string|max:255',
+            'education.*.start_year' => 'nullable|integer|min:1950|max:2030',
+            'education.*.end_year' => 'nullable|integer|min:1950|max:2030',
+            'education.*.note' => 'nullable|string|max:255',
+
+            // Seminars
+            'seminars' => 'nullable|array',
+            'seminars.*.name' => 'required_with:seminars|string|max:255',
+            'seminars.*.major_or_topic' => 'nullable|string|max:255',
+            'seminars.*.start_year' => 'nullable|integer|min:1950|max:2030',
+            'seminars.*.note' => 'nullable|string|max:255',
+
+            // Organizations
+            'organizations' => 'nullable|array',
+            'organizations.*.name' => 'required_with:organizations|string|max:255',
+            'organizations.*.position' => 'nullable|string|max:255',
+            'organizations.*.start_year' => 'nullable|integer|min:1950|max:2030',
+            'organizations.*.end_year' => 'nullable|integer|min:1950|max:2030',
+            'organizations.*.note' => 'nullable|string|max:50',
+
+            // Work Experience
+            'work_experience' => 'nullable|array',
+            'work_experience.*.company_name' => 'required_with:work_experience|string|max:255',
+            'work_experience.*.position' => 'required_with:work_experience|string|max:255',
+            'work_experience.*.start_date' => 'nullable|date',
+            'work_experience.*.end_date' => 'nullable|date|after_or_equal:work_experience.*.start_date',
+            'work_experience.*.is_current' => 'nullable|boolean',
+            'work_experience.*.last_salary' => 'nullable|string|max:255',
+            'work_experience.*.resign_reason' => 'nullable|string|max:255',
+            'work_experience.*.responsibilities' => 'nullable|string',
+
+            // Documents
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
+            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+            'cover_letter' => 'nullable|string|max:5000',
+            'terms' => 'required|accepted',
         ]);
 
         try {
             if ($job->applications()->where('user_id', Auth::id())->exists()) {
                 return redirect()->back()->with('error', 'You have already applied for this job.');
             }
+
             $firstName = $request->first_name;
             $lastName = $request->last_name;
             $jobFolder = Str::slug($job->id . '-' . $job->title);
             $candidateFolder = Str::slug($firstName . '-' . $lastName);
-
             $basePath = "private/jobs/{$jobFolder}/{$candidateFolder}";
+
+            // Store Photo
+            $photo = $request->file('photo');
+            $photoPath = $photo->storeAs($basePath, "Photo_{$firstName}_{$lastName}." . $photo->getClientOriginalExtension());
 
             // Store Resume (CV)
             $resume = $request->file('resume');
@@ -80,20 +154,43 @@ class JobsListController extends Controller
             $otherPath = null;
             if ($request->hasFile('other_file')) {
                 $otherFile = $request->file('other_file');
-                $otherPath = $otherFile->storeAs($basePath, "Other_{$firstName}_{$lastName}." . $otherFile->getClientOriginalExtension());
+                $otherPath = $otherFile->storeAs($basePath, "Supporting_Docs_{$firstName}_{$lastName}." . $otherFile->getClientOriginalExtension());
             }
 
-            // Save application
-            $job->applications()->create([
+            // Prepare application data
+            $applicationData = [
                 'user_id' => Auth::user()->id,
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'email' => $request->email,
                 'phone' => $request->phone,
-                'cover_letter' => $request->cover_letter,
+                'home_phone' => $request->home_phone,
+                'birth_place' => $request->birth_place,
+                'birth_date' => $request->birth_date,
+                'gender' => $request->gender,
+                'religion' => $request->religion,
+                'blood_type' => $request->blood_type,
+                'marital_status' => $request->marital_status,
+                'national_id' => $request->national_id,
+                'domicile_address' => $request->domicile_address,
+                'current_address' => $request->current_address,
+                'housing_type' => $request->housing_type,
+                'vehicle_type' => $request->vehicle_type,
+                'vehicle_owner' => $request->vehicle_owner,
+                'vehicle_year' => $request->vehicle_year,
+                'photo_path' => $photoPath,
                 'cv_path' => $cvPath,
                 'other_path' => $otherPath,
-            ]);
+                'cover_letter' => $request->cover_letter,
+                'family_members' => json_encode($request->family_members ?? []),
+                'spouse_children' => json_encode($request->spouse_children ?? []),
+                'education' => json_encode($request->education ?? []),
+                'seminars' => json_encode($request->seminars ?? []),
+                'organizations' => json_encode($request->organizations ?? []),
+                'work_experience' => json_encode($request->work_experience ?? []),
+            ];
+
+            $job->applications()->create($applicationData);
 
             return redirect()->route('candidate.jobs', $job->id)
                 ->with('success', 'Application submitted successfully!');
@@ -104,7 +201,6 @@ class JobsListController extends Controller
                 ->with('error', 'Failed to submit application. Please try again.');
         }
     }
-
     // END CANDIDATE
 
     // HR

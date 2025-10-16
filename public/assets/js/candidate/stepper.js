@@ -132,7 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // ✅ ADD THIS: Handle form submission on last step
-    const form = document.querySelector("form");
+    const form = document.getElementById("applicationForm");
     const submitBtn = document.getElementById("submitBtn");
 
     submitBtn?.addEventListener("click", (e) => {
