@@ -70,4 +70,15 @@ class JobApplicationController extends Controller
 
         return $pdf->stream($fileName);
     }
+
+    public function getPhoto($path)
+    {
+        $fullPath = storage_path('app/private/' . $path);
+
+        if (!file_exists($fullPath)) {
+            abort(404);
+        }
+
+        return response()->file($fullPath);
+    }
 }

@@ -85,6 +85,7 @@ Route::controller(JobApplicationController::class)->group(function () {
         Route::get('/hr/applicants', 'applicants')->name('hr.applicants');
         Route::get('/hr/applications/{id}/details', 'getApplicationDetails')->name('hr.applications.details');
         Route::get('hr/applications/{id}/download',  'downloadForm')->name('application.form.download');
+        Route::get('hr/applications/photo/{path}', 'getPhoto')->where('path', '.*');
     });
 });
 

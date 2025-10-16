@@ -160,8 +160,31 @@
     <div class="pdf-container">
         <!-- Header -->
         <div class="header">
-            <div>
-                <h1>JOB APPLICATION FORM</h1>
+            <div class="candidate-header">
+                <div class="header-title">
+                    <h1 style="text-align: center;">JOB APPLICATION FORM</h1>
+                    @php
+                        $photoPath = storage_path('app/' . $application->photo_path ?? '');
+                        $photoBase64 = null;
+
+                        if ($application->photo_path && file_exists($photoPath)) {
+                            $extension = pathinfo($photoPath, PATHINFO_EXTENSION);
+                            $photoBase64 =
+                                'data:image/' . $extension . ';base64,' . base64_encode(file_get_contents($photoPath));
+                        }
+                    @endphp
+
+                    @if ($photoBase64)
+                        <img src="{{ $photoBase64 }}"
+                            alt="{{ $application->first_name }} {{ $application->last_name }} Photo"
+                            class="candidate-photo"
+                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                    @else
+                        <div class="photo-placeholder">No Photo</div>
+                    @endif
+                    <h2 class="candidate-name">{{ StringHelpers::capitalCase($application->first_name) }}
+                        {{ StringHelpers::capitalCase($application->last_name) }}</h2>
+                </div>
             </div>
             <div class="header-info">
                 <strong>Application ID:</strong> {{ $application->id }}<br>
