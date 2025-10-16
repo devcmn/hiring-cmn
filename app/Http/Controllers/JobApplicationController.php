@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobApplicationModel;
 use App\Models\JobListModel;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class JobApplicationController extends Controller
 {
@@ -53,5 +54,18 @@ class JobApplicationController extends Controller
         $application->save();
 
         return response()->json(['success' => true]);
+    }
+
+    public function downloadForm($id)
+    {
+        $application = JobApplicationModel::findOrFail($id);
+
+        $pdf = Pdf::loadView('pdf.hr.applicant-form', [
+            'application' => $application,
+        ]);
+
+        $fileName = 'Application_' . $application->first_name . '_' . $application->last_name . '.pdf';
+
+        return $pdf->stream($fileName);
     }
 }
