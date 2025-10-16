@@ -113,8 +113,8 @@ document.addEventListener("DOMContentLoaded", function () {
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Date of Birth</label>
-                        <input type="date" name="spouse_children[${spouseChildCount}][birth_date]"
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Age</label>
+                        <input type="text" name="spouse_children[${spouseChildCount}][age]"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
                     </div>
 

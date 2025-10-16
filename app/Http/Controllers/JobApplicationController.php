@@ -59,9 +59,11 @@ class JobApplicationController extends Controller
     public function downloadForm($id)
     {
         $application = JobApplicationModel::findOrFail($id);
+        $job = $application->job;
 
         $pdf = Pdf::loadView('pdf.hr.applicant-form', [
             'application' => $application,
+            'job' => $job,
         ]);
 
         $fileName = 'Application_' . $application->first_name . '_' . $application->last_name . '.pdf';

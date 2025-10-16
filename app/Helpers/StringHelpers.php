@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-class StringHelper
+class StringHelpers
 {
     public static function capitalCase(?string $value): string
     {
