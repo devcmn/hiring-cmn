@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     </svg>
                 </button>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
                             Relation <span class="text-red-500">*</span>
@@ -39,40 +39,40 @@ document.addEventListener("DOMContentLoaded", function () {
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                             placeholder="Full name" required>
                     </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Gender<span class="text-red-500">*</span>
-                    </label>
-                    <select name="family_members[${familyMemberCount}][gender]"
-                        class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('gender') border-red-500 @enderror"
-                        required>
-                        <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Age</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Gender <span class="text-red-500">*</span>
+                        </label>
+                        <select name="family_members[${familyMemberCount}][gender]"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                            required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Age <span class="text-red-500">*</span></label>
                         <input type="number" name="family_members[${familyMemberCount}][age]" min="0" max="150"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                            placeholder="Age">
+                            placeholder="ex: 24" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Occupation</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Occupation <span class="text-red-500">*</span></label>
                         <input type="text" name="family_members[${familyMemberCount}][occupation]"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                            placeholder="Occupation">
+                            placeholder="Occupation" required>
                     </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Phone</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Phone <span class="text-red-500">*</span></label>
                         <input type="tel" name="family_members[${familyMemberCount}][phone]"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                            placeholder="0812 xxxx xxxx">
+                            placeholder="0812 xxxx xxxx" required>
                     </div>
 
-                    <div>
+                    <div class="col-span-1 md:col-span-2">
                         <label class="block text-sm font-semibold text-gray-700 mb-2">Address</label>
                         <input type="text" name="family_members[${familyMemberCount}][address]"
                             class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
@@ -123,23 +123,24 @@ document.addEventListener("DOMContentLoaded", function () {
                             placeholder="Full name" required>
                     </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Gender<span class="text-red-500">*</span>
-                    </label>
-                    <select name="family_members[${spouseChildCount}][gender]"
-                        class="choices-select w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors @error('gender') border-red-500 @enderror"
-                        required>
-                        <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                    </select>
-                </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">
+                            Gender <span class="text-red-500">*</span>
+                        </label>
+                        <select name="spouse_children[${spouseChildCount}][gender]"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                            required>
+                            <option value="">Select</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
 
                     <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Age</label>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Age
+                         <span class="text-red-500">*</span></label>
                         <input type="text" name="spouse_children[${spouseChildCount}][age]"
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors">
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors" placeholder="ex: 24" required>
                     </div>
 
                     <div>

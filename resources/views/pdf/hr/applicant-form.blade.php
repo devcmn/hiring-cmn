@@ -289,6 +289,7 @@
                         <th width="15%">Relation</th>
                         <th width="25%">Name</th>
                         <th width="10%">Age</th>
+                        <th width="10%">Gender</th>
                         <th width="30%">Occupation</th>
                         <th width="20%">Phone</th>
                     </tr>
@@ -299,6 +300,7 @@
                             <td>{{ ucfirst($member['relation'] ?? '-') }}</td>
                             <td>{{ $member['name'] ?? '-' }}</td>
                             <td>{{ $member['age'] ?? '-' }}</td>
+                            <td>{{ $member['gender'] ?? '-' }}</td>
                             <td>{{ $member['occupation'] ?? '-' }}</td>
                             <td>{{ $member['phone'] ?? '-' }}</td>
                         </tr>
@@ -316,6 +318,7 @@
                         <th width="15%">Relation</th>
                         <th width="25%">Name</th>
                         <th width="10%">Age</th>
+                        <th width="10%">Gender</th>
                         <th width="30%">Occupation</th>
                         <th width="20%">Education</th>
                     </tr>
@@ -326,6 +329,7 @@
                             <td>{{ ucfirst($sp_child['relation'] ?? '-') }}</td>
                             <td>{{ $sp_child['name'] ?? '-' }}</td>
                             <td>{{ $sp_child['age'] ?? '-' }}</td>
+                            <td>{{ $sp_child['gender'] ?? '-' }}</td>
                             <td>{{ $sp_child['occupation'] ?? '-' }}</td>
                             <td>{{ $sp_child['education'] ?? '-' }}</td>
                         </tr>
