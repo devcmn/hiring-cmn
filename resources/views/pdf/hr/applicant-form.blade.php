@@ -31,24 +31,69 @@
 
         /* Header */
         .header {
-            border-bottom: 3px solid #1a5c3a;
-            padding-bottom: 8px;
-            margin-bottom: 12px;
+            border-bottom: 4px solid #1a5c3a;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            gap: 20px;
         }
 
-        .header h1 {
+        .candidate-header {
+            flex: 1;
+            text-align: center;
+        }
+
+        .header-title h1 {
+            font-size: 20px;
+            color: #1a5c3a;
+            font-weight: bold;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .candidate-photo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid #1a5c3a;
+            margin: 0 auto 10px;
+            display: block;
+        }
+
+        .photo-placeholder {
+            width: 100px;
+            height: 100px;
+            background: #f0f0f0;
+            border: 3px solid #1a5c3a;
+            border-radius: 50%;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #999;
+        }
+
+        .candidate-name {
             font-size: 16px;
             color: #1a5c3a;
             font-weight: bold;
+            margin: 0 auto;
+            text-align: center;
         }
 
         .header-info {
             text-align: right;
-            font-size: 8px;
-            line-height: 1.4;
+            font-size: 9px;
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .header-info strong {
+            color: #1a5c3a;
         }
 
         /* Section Headers */
@@ -162,7 +207,7 @@
         <div class="header">
             <div class="candidate-header">
                 <div class="header-title">
-                    <h1 style="text-align: center;">JOB APPLICATION FORM</h1>
+                    <h1>JOB APPLICATION FORM</h1>
                     @php
                         $photoPath = storage_path('app/' . $application->photo_path ?? '');
                         $photoBase64 = null;
@@ -177,8 +222,7 @@
                     @if ($photoBase64)
                         <img src="{{ $photoBase64 }}"
                             alt="{{ $application->first_name }} {{ $application->last_name }} Photo"
-                            class="candidate-photo"
-                            style="width: 120px; height: 120px; object-fit: cover; border-radius: 8px;">
+                            class="candidate-photo">
                     @else
                         <div class="photo-placeholder">No Photo</div>
                     @endif
