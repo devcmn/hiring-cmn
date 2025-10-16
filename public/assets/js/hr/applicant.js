@@ -178,6 +178,27 @@ function showApplicationModal(applicationId) {
     const modal = document.getElementById("applicationModal");
     const modalContent = document.getElementById("modalContent");
 
+    function capitalCase(str) {
+        if (!str) return "";
+        return str
+            .toLowerCase()
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(" ");
+    }
+
+    function parseData(data) {
+        try {
+            const parsed = typeof data === "string" ? JSON.parse(data) : data;
+            if (Array.isArray(parsed)) return parsed;
+            if (typeof parsed === "object" && parsed !== null)
+                return Object.values(parsed);
+            return [];
+        } catch {
+            return [];
+        }
+    }
+
     modalContent.innerHTML = `
         <div class="flex items-center justify-center py-12">
             <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-900"></div>
@@ -193,171 +214,441 @@ function showApplicationModal(applicationId) {
             const job = app.job || {};
 
             modalContent.innerHTML = `
-                <div class="space-y-8">
-                    <!-- Candidate Information -->
-                    <section>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                            Candidate Information
-                        </h4>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <p class="text-xs text-gray-500">Full Name</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    app.first_name
-                                } ${app.last_name}</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Email</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    app.email
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Phone</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    app.phone
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Applied Date</p>
-                                <p class="text-sm font-medium text-gray-900">
-                                    ${new Date(
-                                        app.created_at
-                                    ).toLocaleDateString()}
-                                </p>
-                            </div>
-                            <div>
-                                 <p class="text-xs text-gray-500">Status</p>
-                                ${(() => {
-                                    const statusMap = {
-                                        pending: {
-                                            text: "Pending",
-                                            classes:
-                                                "bg-yellow-100 text-yellow-800",
-                                        },
-                                        approved: {
-                                            text: "Approved",
-                                            classes:
-                                                "bg-green-100 text-green-800",
-                                        },
-                                        rejected: {
-                                            text: "Rejected",
-                                            classes: "bg-red-100 text-red-800",
-                                        },
-                                    };
-                                    const statusInfo = statusMap[
-                                        app.status
-                                    ] || {
-                                        text: app.status || "-",
-                                        classes: "bg-gray-100 text-gray-800",
-                                    };
-                                    return `<span class="inline-block px-3 py-1 text-xs font-semibold rounded-full ${statusInfo.classes}">
-                                                ${statusInfo.text}
-                                            </span>`;
-                                })()}
-                            </div>
-                        </div>
-                    </section>
+<div class="space-y-6 max-h-[80vh] overflow-y-auto">
+    <!-- Candidate Information -->
+    <section>
+        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+            Personal Information
+        </h4>
+        <div class="grid md:grid-cols-2 gap-6">
+            <div>
+                <p class="text-xs text-gray-500">Full Name</p>
+                <p class="text-sm font-medium text-gray-900">${capitalCase(
+                    app.first_name
+                )} ${capitalCase(app.last_name)}</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Gender</p>
+                <p class="text-sm font-medium text-gray-900">${capitalCase(
+                    app.gender
+                )}</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Email</p>
+                <p class="text-sm font-medium text-gray-900">${
+                    app.home_phone ?? "-"
+                }</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Date of Birth</p>
+                <p class="text-sm font-medium text-gray-900"> ${new Date(
+                    app.created_at
+                ).toLocaleDateString()} (${capitalCase(app.birth_place)})</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Religion</p>
+                <p class="text-sm font-medium text-gray-900">${capitalCase(
+                    app.religion
+                )}</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Blood Type</p>
+                <p class="text-sm font-medium text-gray-900">${
+                    app.blood_type ?? "-"
+                }</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Marital Status</p>
+                <p class="text-sm font-medium text-gray-900">${capitalCase(
+                    app.marital_status
+                )}</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">National ID (KTP)</p>
+                <p class="text-sm font-medium text-gray-900">${
+                    app.national_id
+                }</p>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Job Details -->
-                    <section>
-                        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                            Position Details
-                        </h4>
-                        <div class="grid md:grid-cols-2 gap-6">
-                            <div>
-                                <p class="text-xs text-gray-500">Position</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    job.title || "-"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Company</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    job.company_name || "-"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Location</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    job.location || "-"
-                                }</p>
-                            </div>
-                            <div>
-                                <p class="text-xs text-gray-500">Type</p>
-                                <p class="text-sm font-medium text-gray-900">${
-                                    job.job_type || "-"
-                                }</p>
-                            </div>
-                        </div>
-                    </section>
-
-                    <!-- Cover Letter -->
-                    ${
-                        app.cover_letter
-                            ? `
-                                <section>
-                                    <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                                        Cover Letter
-                                    </h4>
-                                    <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700 max-h-64 overflow-y-auto">
-                                        ${app.cover_letter}
-                                    </div>
-                                </section>
-                            `
-                            : ""
-                    }
-
-                    <!-- Attachments -->
-                    <section>
-                    <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
-                        Attachments
-                    </h4>
-                    <div class="flex flex-wrap gap-3">
-                        ${
-                            app.cv_path
-                                ? (() => {
-                                      const parts = app.cv_path.split("/");
-                                      // ['private', 'jobs', '5-head-it', 'klepon-lie', 'CV_Klepon_Lie.pdf']
-                                      const jobId = parts[2] ?? "";
-                                      const folder = parts[3] ?? "";
-                                      const filename = parts[4] ?? "";
-                                      const url = `/download/cv/${jobId}/${folder}/${filename}`;
-                                      return `
-                                        <a href="${url}" class="px-4 py-2 bg-primary-900 text-white text-sm font-medium rounded-lg hover:bg-primary-800 transition">
-                                            Download CV
-                                        </a>
-                                    `;
-                                  })()
-                                : '<p class="text-gray-500 text-sm">No CV uploaded</p>'
-                        }
-                        ${
-                            app.other_path
-                                ? (() => {
-                                      const parts = app.other_path.split("/");
-                                      const jobId = parts[2] ?? "";
-                                      const folder = parts[3] ?? "";
-                                      const filename = parts[4] ?? "";
-                                      const url = `/download/other/${jobId}/${folder}/${filename}`;
-                                      return `
-                                        <a href="${url}" class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition">
-                                            Download Other File
-                                        </a>
-                                    `;
-                                  })()
-                                : ""
-                        }
-                    </div>
-                </section>
-                    <!-- Close Button -->
-                    <div class="flex justify-end pt-4 border-t border-gray-200">
-                        <button onclick="closeModal()"
-                            class="px-6 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
-                            Close
-                        </button>
-                    </div>
+    <!-- Address Information -->
+    <section>
+        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+            Address Information
+        </h4>
+        <div class="space-y-4">
+            <div>
+                <p class="text-xs text-gray-500">Domicile Address (KTP)</p>
+                <p class="text-sm font-medium text-gray-900">${
+                    app.domicile_address
+                }</p>
+            </div>
+            <div>
+                <p class="text-xs text-gray-500">Current Address</p>
+                <p class="text-sm font-medium text-gray-900">${
+                    app.current_address
+                }</p>
+            </div>
+            <div class="grid md:grid-cols-2 gap-4">
+                <div>
+                    <p class="text-xs text-gray-500">Housing Type</p>
+                    <p class="text-sm font-medium text-gray-900">${capitalCase(
+                        app.housing_type
+                    )}</p>
                 </div>
-            `;
+                <div>
+                    <p class="text-xs text-gray-500">Vehicle</p>
+                    <p class="text-sm font-medium text-gray-900">${capitalCase(
+                        app.vehicle_type
+                    )} ${
+                app.vehicle_owner
+                    ? `(${capitalCase(app.vehicle_owner)}, ${
+                          app.vehicle_year ?? "-"
+                      })`
+                    : ""
+            }</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Family Information -->
+    ${
+        app.family_members && parseData(app.family_members).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Family Members
+                </h4>
+                <div class="overflow-x-auto bg-gray-50 rounded-lg">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-gray-700 font-semibold">Relation</th>
+                                <th class="px-4 py-2 text-left text-gray-700 font-semibold">Name</th>
+                                <th class="px-4 py-2 text-left text-gray-700 font-semibold">Age</th>
+                                <th class="px-4 py-2 text-left text-gray-700 font-semibold">Occupation</th>
+                                <th class="px-4 py-2 text-left text-gray-700 font-semibold">Phone</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            ${parseData(app.family_members)
+                                .map(
+                                    (m) => `
+                                <tr>
+                                    <td class="px-4 py-2 text-gray-900">${capitalCase(
+                                        m.relation
+                                    )}</td>
+                                    <td class="px-4 py-2 text-gray-900">${
+                                        m.name
+                                    }</td>
+                                    <td class="px-4 py-2 text-gray-900">${
+                                        m.age ?? "-"
+                                    }</td>
+                                    <td class="px-4 py-2 text-gray-900">${
+                                        m.occupation ?? "-"
+                                    }</td>
+                                    <td class="px-4 py-2 text-gray-900">${
+                                        m.phone ?? "-"
+                                    }</td>
+                                </tr>
+                            `
+                                )
+                                .join("")}
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Spouse & Children -->
+    ${
+        app.spouse_children && parseData(app.spouse_children).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Spouse & Children
+                </h4>
+                <div class="space-y-3">
+                    ${parseData(app.spouse_children)
+                        .map(
+                            (sc) => `
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="text-xs font-semibold text-primary-900 bg-primary-100 px-2 py-1 rounded">${capitalCase(
+                                    sc.relation
+                                )}</span>
+                            </div>
+                            <p class="font-medium text-gray-900">${sc.name}</p>
+                            ${
+                                sc.birth_date
+                                    ? `<p class="text-xs text-gray-600 mt-1">Born: ${formatDate(
+                                          sc.birth_date
+                                      )}</p>`
+                                    : ""
+                            }
+                            ${
+                                sc.occupation
+                                    ? `<p class="text-xs text-gray-600">Occupation: ${sc.occupation}</p>`
+                                    : ""
+                            }
+                            ${
+                                sc.education
+                                    ? `<p class="text-xs text-gray-600">Education: ${sc.education}</p>`
+                                    : ""
+                            }
+                        </div>
+                    `
+                        )
+                        .join("")}
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Education -->
+    ${
+        app.education && parseData(app.education).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Education
+                </h4>
+                <div class="space-y-3">
+                    ${parseData(app.education)
+                        .map(
+                            (e) => `
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-medium text-gray-900">${e.name}</p>
+                            ${
+                                e.major_or_topic
+                                    ? `<p class="text-sm text-gray-600 mt-1">${e.major_or_topic}</p>`
+                                    : ""
+                            }
+                            <p class="text-xs text-gray-500 mt-2">${
+                                e.start_year ?? "-"
+                            } - ${e.end_year ? e.end_year : "Present"} ${
+                                e.note ? `• GPA: ${e.note}` : ""
+                            }</p>
+                        </div>
+                    `
+                        )
+                        .join("")}
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Seminars -->
+    ${
+        app.seminars && parseData(app.seminars).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Seminars & Training
+                </h4>
+                <ul class="space-y-2">
+                    ${parseData(app.seminars)
+                        .map(
+                            (s) => `
+                        <li class="text-sm text-gray-700">
+                            <span class="font-medium">${s.name}</span> ${
+                                s.major_or_topic ? `(${s.major_or_topic})` : ""
+                            } — ${s.start_year ?? "-"} ${
+                                s.note ? `• ${s.note}` : ""
+                            }
+                        </li>
+                    `
+                        )
+                        .join("")}
+                </ul>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Organizations -->
+    ${
+        app.organizations && parseData(app.organizations).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Organizations
+                </h4>
+                <div class="space-y-3">
+                    ${parseData(app.organizations)
+                        .map(
+                            (o) => `
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <p class="font-medium text-gray-900">${
+                                        o.name
+                                    }</p>
+                                    ${
+                                        o.position
+                                            ? `<p class="text-sm text-gray-600 mt-1">Position: ${o.position}</p>`
+                                            : ""
+                                    }
+                                </div>
+                                ${
+                                    o.note
+                                        ? `<span class="text-xs font-semibold ${
+                                              o.note === "Active"
+                                                  ? "bg-green-100 text-green-800"
+                                                  : "bg-gray-100 text-gray-800"
+                                          } px-2 py-1 rounded">${o.note}</span>`
+                                        : ""
+                                }
+                            </div>
+                            <p class="text-xs text-gray-500 mt-2">${
+                                o.start_year ?? "-"
+                            } - ${o.end_year ?? "-"}</p>
+                        </div>
+                    `
+                        )
+                        .join("")}
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Work Experience -->
+    ${
+        app.work_experience && parseData(app.work_experience).length > 0
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Work Experience
+                </h4>
+                <div class="space-y-3">
+                    ${parseData(app.work_experience)
+                        .map(
+                            (w) => `
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <p class="font-medium text-gray-900">${
+                                w.company_name
+                            }</p>
+                            <p class="text-sm text-primary-900 font-semibold mt-1">${
+                                w.position
+                            }</p>
+                            <p class="text-xs text-gray-600 mt-2">${
+                                w.start_date ?? "-"
+                            } → ${
+                                w.end_date ? w.end_date : "Currently working"
+                            }</p>
+                            <p class="text-xs text-gray-600 mt-1">Salary: ${
+                                w.last_salary ?? "-"
+                            }</p>
+                            ${
+                                w.responsibilities
+                                    ? `<p class="text-xs text-gray-700 mt-2"><strong>Responsibilities:</strong> ${w.responsibilities}</p>`
+                                    : ""
+                            }
+                            ${
+                                w.resign_reason
+                                    ? `<p class="text-xs text-gray-700 mt-1"><strong>Resign Reason:</strong> ${w.resign_reason}</p>`
+                                    : ""
+                            }
+                        </div>
+                    `
+                        )
+                        .join("")}
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Cover Letter -->
+    ${
+        app.cover_letter
+            ? `
+            <section>
+                <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+                    Cover Letter
+                </h4>
+                <div class="bg-gray-50 rounded-lg p-4 text-sm text-gray-700 max-h-64 overflow-y-auto border border-gray-200 whitespace-pre-wrap">
+                    ${app.cover_letter}
+                </div>
+            </section>
+            `
+            : ""
+    }
+
+    <!-- Attachments -->
+    <section>
+        <h4 class="text-lg font-semibold text-gray-900 mb-4 border-b border-gray-200 pb-2">
+            Attachments
+        </h4>
+        <div class="flex flex-wrap gap-3">
+        ${
+            app.photo_path
+                ? (() => {
+                      const parts = app.photo_path.split("/");
+                      // ['private', 'jobs', '5-head-it', 'klepon-lie', 'Photo_Klepon_Lie.jpg']
+                      const jobId = parts[2] ?? "";
+                      const folder = parts[3] ?? "";
+                      const filename = parts[4] ?? "";
+                      const url = `/download/photo/${jobId}/${folder}/${filename}`;
+                      return `
+                        <a href="${url}" target="_blank"
+                            class="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+                            View Photo
+                        </a>
+                    `;
+                  })()
+                : ""
+        }
+        ${
+            app.cv_path
+                ? (() => {
+                      const parts = app.cv_path.split("/");
+                      const jobId = parts[2] ?? "";
+                      const folder = parts[3] ?? "";
+                      const filename = parts[4] ?? "";
+                      const url = `/download/cv/${jobId}/${folder}/${filename}`;
+                      return `
+                        <a href="${url}" class="px-4 py-2 bg-primary-900 text-white text-sm font-medium rounded-lg hover:bg-primary-800 transition">
+                            Download CV
+                        </a>
+                    `;
+                  })()
+                : '<p class="text-gray-500 text-sm">No CV uploaded</p>'
+        }
+        ${
+            app.other_path
+                ? (() => {
+                      const parts = app.other_path.split("/");
+                      const jobId = parts[2] ?? "";
+                      const folder = parts[3] ?? "";
+                      const filename = parts[4] ?? "";
+                      const url = `/download/other/${jobId}/${folder}/${filename}`;
+                      return `
+                        <a href="${url}" class="px-4 py-2 bg-gray-800 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition">
+                            Download Other File
+                        </a>
+                    `;
+                  })()
+                : ""
+        }
+    </div>
+    </section>
+
+    <!-- Close Button -->
+    <div class="flex justify-end pt-4 border-t border-gray-200">
+        <button onclick="closeModal()" class="px-6 py-2 bg-gray-200 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-300 transition-colors">
+            Close
+        </button>
+    </div>
+</div>
+`;
         })
         .catch((error) => {
             console.error("Error:", error);

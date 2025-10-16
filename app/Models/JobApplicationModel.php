@@ -20,7 +20,6 @@ class JobApplicationModel extends Model
     protected $fillable = [
         'user_id',
         'job_id',
-        'applied_position',
         'first_name',
         'last_name',
         'email',
@@ -65,5 +64,11 @@ class JobApplicationModel extends Model
     public function job()
     {
         return $this->belongsTo(JobListModel::class, 'job_id');
+    }
+
+    // Applicant (user)
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
 }
