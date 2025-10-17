@@ -344,11 +344,11 @@
                 <div class="info-row">
                     <div class="info-item">
                         <span class="label">Housing Type</span>
-                        <span class="value">{{ ucfirst($application->housing_type) }}</span>
+                        <span class="value">{{ StringHelpers::capitalCase($application->housing_type) }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Vehicle Type</span>
-                        <span class="value">{{ ucfirst($application->vehicle_type) }}</span>
+                        <span class="value">{{ StringHelpers::capitalCase($application->vehicle_type) }}</span>
                     </div>
                     <div class="info-item">
                         <span class="label">Vehicle Owner</span>
@@ -376,11 +376,11 @@
                 <tbody>
                     @foreach (json_decode($application->family_members, true) as $member)
                         <tr>
-                            <td>{{ ucfirst($member['relation'] ?? '-') }}</td>
-                            <td>{{ $member['name'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($member['relation'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($member['name'] ?? '-') }}</td>
                             <td>{{ $member['age'] ?? '-' }}</td>
-                            <td>{{ $member['gender'] ?? '-' }}</td>
-                            <td>{{ $member['occupation'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($member['gender'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($member['occupation'] ?? '-') }}</td>
                             <td>{{ $member['phone'] ?? '-' }}</td>
                         </tr>
                     @endforeach
@@ -405,12 +405,12 @@
                 <tbody>
                     @foreach (json_decode($application->spouse_children, true) as $sp_child)
                         <tr>
-                            <td>{{ ucfirst($sp_child['relation'] ?? '-') }}</td>
-                            <td>{{ $sp_child['name'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($sp_child['relation'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($sp_child['name'] ?? '-') }}</td>
                             <td>{{ $sp_child['age'] ?? '-' }}</td>
-                            <td>{{ $sp_child['gender'] ?? '-' }}</td>
-                            <td>{{ $sp_child['occupation'] ?? '-' }}</td>
-                            <td>{{ $sp_child['education'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($sp_child['gender'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($sp_child['occupation'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($sp_child['education'] ?? '-') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -432,8 +432,8 @@
                 <tbody>
                     @foreach (json_decode($application->education, true) as $edu)
                         <tr>
-                            <td>{{ $edu['name'] ?? '-' }}</td>
-                            <td>{{ $edu['major_or_topic'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($edu['name'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($edu['major_or_topic'] ?? '-') }}</td>
                             <td>{{ $edu['start_year'] ?? '-' }} - {{ $edu['end_year'] ?? 'Present' }}</td>
                             <td>{{ $edu['grade'] ?? '-' }}</td>
                         </tr>
@@ -456,8 +456,8 @@
                 <tbody>
                     @foreach (json_decode($application->organizations, true) as $org)
                         <tr>
-                            <td>{{ $org['name'] ?? '-' }}</td>
-                            <td>{{ $org['position'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($org['name'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($org['position'] ?? '-') }}</td>
                             <td>{{ $org['start_year'] ?? '-' }} - {{ $org['end_year'] ?? 'Present' }}</td>
                         </tr>
                     @endforeach
@@ -479,8 +479,8 @@
                 <tbody>
                     @foreach (json_decode($application->seminars, true) as $seminar)
                         <tr>
-                            <td>{{ $seminar['name'] ?? '-' }}</td>
-                            <td>{{ $seminar['major_or_topic'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($seminar['name'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($seminar['major_or_topic'] ?? '-') }}</td>
                             <td>{{ $seminar['start_year'] ?? '-' }}</td>
                         </tr>
                     @endforeach
@@ -504,12 +504,20 @@
                 <tbody>
                     @foreach (json_decode($application->work_experience, true) as $work)
                         <tr>
-                            <td>{{ $work['company_name'] ?? '-' }}</td>
-                            <td>{{ $work['position'] ?? '-' }}</td>
-                            <td>{{ $work['start_date'] ?? '-' }} to {{ $work['end_date'] ?? 'Present' }}</td>
+                            <td>{{ StringHelpers::capitalCase($work['company_name'] ?? '-') }}</td>
+                            <td>{{ StringHelpers::capitalCase($work['position'] ?? '-') }}</td>
+                            @php
+                                $startDate = isset($work['start_date'])
+                                    ? \Carbon\Carbon::parse($work['start_date'])->format('d-M-Y')
+                                    : '-';
+                                $endDate = isset($work['end_date'])
+                                    ? \Carbon\Carbon::parse($work['end_date'])->format('d-M-Y')
+                                    : 'Present';
+                            @endphp
+                            <td>{{ $startDate }} to {{ $endDate }}</td>
                             <td>{{ $work['last_salary'] ? 'Rp ' . number_format($work['last_salary'], 0, ',', '.') : '-' }}
                             </td>
-                            <td>{{ $work['resign_reason'] ?? '-' }}</td>
+                            <td>{{ StringHelpers::capitalCase($work['resign_reason'] ?? '-') }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -529,6 +537,64 @@
             <p>Generated on {{ \Carbon\Carbon::now()->format('d M Y H:i') }} | Job ID: {{ $job->id }} | Position:
                 {{ $job->title }}</p>
         </div>
+
+        <!-- Page Break -->
+        <div style="page-break-before: always;"></div>
+
+        <!-- SECTION: Questionnaire / Other Info -->
+        <div class="section-header bg-green-600 text-white">Questionnaire Responses</div>
+
+        @php
+            $questions = json_decode($application->other_info, true);
+            $questionLabels = [
+                1 => 'Apakah Anda pernah melamar di group/perusahaan ini sebelumnya? Bilamana dan sebagai apa?',
+                2 => 'Selain di sini di perusahaan mana lagi Anda melamar waktu ini? Sebagai apa?',
+                3 => 'Apakah Anda terikat kontrak dengan perusahaan tempat kerja Anda saat ini?',
+                4 => 'Apakah Anda mempunyai pekerjaan sampingan? Dimana dan sebagai apa?',
+                5 => 'Apakah Anda mempunyai teman/sanak saudara yang bekerja di group/perusahaan ini? Sebutkan!',
+                6 => 'Apakah Anda pernah menderita sakit keras/kronis/kecelakaan berat/operasi? Bilamana dan macam apa?',
+                7 => 'Apakah Anda pernah menjalani pemeriksaan Psikologi/Psikotest? Bilamana, di mana dan untuk tujuan apa?',
+                8 => 'Apakah Anda pernah berurusan dengan polisi karena tindak kejahatan?',
+                9 => 'Bila diterima, bersediakah Anda ditempatkan di luar kota? Sebutkan nama kota/daerahnya?',
+                10 => 'Jenis pekerjaan/jabatan apakah yang sesuai dengan cita-cita Anda?',
+                11 => 'Jenis pekerjaan bagaimana yang tidak Anda sukai?',
+                12 => 'Bila diterima, berapa besar gaji dan fasilitas apa yang Anda harapkan?',
+                13 => 'Bila diterima, kapankah Anda dapat mulai bekerja?',
+                14 => 'Sebutkan nama, alamat dan no. telp. orang yang dapat mereferensikan Anda dari perusahaan tempat Anda pernah bekerja!',
+            ];
+        @endphp
+
+        <table>
+            <thead>
+                <tr>
+                    <th width="5%">No</th>
+                    <th width="45%">Question</th>
+                    <th width="15%">Answer</th>
+                    <th width="40%">Explanation</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($questions as $key => $item)
+                    @php
+                        $num = (int) str_replace('question_', '', $key);
+                        $answer = $item['answer'] ?? '-';
+                        $explanation = $item['explanation'] ?? '-';
+
+                        // Convert salary formatting for question 12
+                        if ($num === 12 && is_numeric($answer)) {
+                            $answer = 'Rp ' . number_format($answer, 0, ',', '.');
+                        }
+                    @endphp
+                    <tr>
+                        <td style="text-align: center">{{ $num }}</td>
+                        <td>{{ $questionLabels[$num] ?? 'Question ' . $num }}</td>
+                        <td>{{ StringHelpers::capitalCase($answer) }}</td>
+                        <td>{{ StringHelpers::capitalCase($explanation ?: '-') }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
     </div>
 </body>
 
