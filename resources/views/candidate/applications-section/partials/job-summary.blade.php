@@ -73,7 +73,7 @@
         </div>
 
         {{-- Progress Indicator --}}
-        <div class="mt-6 pt-6 border-t border-gray-200">
+        {{-- <div class="mt-6 pt-6 border-t border-gray-200">
             <h4 class="text-sm font-semibold text-gray-900 mb-3">Application Progress</h4>
             <div class="space-y-2">
                 <div class="flex items-center text-xs">
@@ -108,6 +108,6 @@
                     <span class="text-gray-500">Documents</span>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>

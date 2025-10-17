@@ -70,7 +70,7 @@ class JobsListController extends Controller
             'housing_type' => 'required|in:owned,rented,parents,dormitory',
             'vehicle_type' => 'required|in:motorcycle,car,none',
             'vehicle_owner' => 'nullable|in:self,parents,spouse,company',
-            'vehicle_year' => 'nullable|integer|min:1900|max:2030',
+            'vehicle_year' => 'nullable|integer|min:1900',
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:1024',
 
             // Family Members
@@ -94,23 +94,23 @@ class JobsListController extends Controller
             'education' => 'nullable|array',
             'education.*.name' => 'required_with:education|string|max:255',
             'education.*.major_or_topic' => 'nullable|string|max:255',
-            'education.*.start_year' => 'nullable|integer|min:1950|max:2030',
-            'education.*.end_year' => 'nullable|integer|min:1950|max:2030',
+            'education.*.start_year' => 'nullable|integer|min:1950',
+            'education.*.end_year' => 'nullable|integer|min:1950',
             'education.*.note' => 'nullable|string|max:255',
 
             // Seminars
             'seminars' => 'nullable|array',
             'seminars.*.name' => 'required_with:seminars|string|max:255',
             'seminars.*.major_or_topic' => 'nullable|string|max:255',
-            'seminars.*.start_year' => 'nullable|integer|min:1950|max:2030',
+            'seminars.*.start_year' => 'nullable|integer|min:1950',
             'seminars.*.note' => 'nullable|string|max:255',
 
             // Organizations
             'organizations' => 'nullable|array',
             'organizations.*.name' => 'required_with:organizations|string|max:255',
             'organizations.*.position' => 'nullable|string|max:255',
-            'organizations.*.start_year' => 'nullable|integer|min:1950|max:2030',
-            'organizations.*.end_year' => 'nullable|integer|min:1950|max:2030',
+            'organizations.*.start_year' => 'nullable|integer|min:1950',
+            'organizations.*.end_year' => 'nullable|integer|min:1950',
             'organizations.*.note' => 'nullable|string|max:50',
 
             // Work Experience
@@ -125,9 +125,9 @@ class JobsListController extends Controller
             'work_experience.*.responsibilities' => 'nullable|string',
 
             // Documents
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:2048',
-            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
-            'cover_letter' => 'nullable|string|max:5000',
+            'resume' => 'required|file|mimes:pdf,doc,docx|max:1024',
+            'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
+            'cover_letter' => 'nullable|string',
             'terms' => 'required|accepted',
         ]);
 

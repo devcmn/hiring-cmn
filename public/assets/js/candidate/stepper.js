@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     let currentStep = 1;
-    const totalSteps = 6; // Updated from 5 to 6
+    const totalSteps = 6; // total number of form steps
 
     function showStep(step) {
         document.querySelectorAll(".form-step").forEach((el) => {
@@ -64,10 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
         nextBtn?.classList.toggle("hidden", step === totalSteps);
         submitBtn?.classList.toggle("hidden", step !== totalSteps);
 
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth",
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function validateStep(step) {
@@ -77,10 +74,40 @@ document.addEventListener("DOMContentLoaded", function () {
         const requiredFields = currentStepEl.querySelectorAll("[required]");
         let valid = true;
 
+        // ✅ Check for photo if it's step 1
+        if (step === 1) {
+            const photoInput = document.getElementById("photo");
+            if (!photoInput || !photoInput.files.length) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Photo Required",
+                    text: "Please upload your 3x4 photo before continuing.",
+                    confirmButtonColor: "#166534",
+                    confirmButtonText: "OK",
+                });
+                valid = false;
+                return valid;
+            }
+
+            // File size check (1MB)
+            const file = photoInput.files[0];
+            if (file.size > 1 * 1024 * 1024) {
+                Swal.fire({
+                    icon: "error",
+                    title: "File Too Large",
+                    text: "Photo must be less than 1MB.",
+                    confirmButtonColor: "#166534",
+                    confirmButtonText: "OK",
+                });
+                valid = false;
+                return valid;
+            }
+        }
+
         requiredFields.forEach((field) => {
             let isEmpty = false;
 
-            // Check if it's a radio button group
+            // Radio group handling
             if (field.type === "radio") {
                 const radioName = field.name;
                 const checkedRadio = currentStepEl.querySelector(
@@ -88,33 +115,20 @@ document.addEventListener("DOMContentLoaded", function () {
                 );
                 isEmpty = !checkedRadio;
 
-                // Only validate the first radio of each group
                 const firstRadio = currentStepEl.querySelector(
                     `input[name="${radioName}"]`
                 );
-                if (field !== firstRadio) {
-                    return; // Skip validation for duplicate radio names
-                }
+                if (field !== firstRadio) return;
 
+                const radioContainer = field.closest(".bg-gray-50");
                 if (isEmpty) {
-                    // Highlight the entire radio group container
-                    const radioContainer = field.closest(".bg-gray-50");
-                    if (radioContainer) {
-                        radioContainer.classList.add("ring-2", "ring-red-500");
-                    }
+                    radioContainer?.classList.add("ring-2", "ring-red-500");
                     valid = false;
                 } else {
-                    // Remove highlight
-                    const radioContainer = field.closest(".bg-gray-50");
-                    if (radioContainer) {
-                        radioContainer.classList.remove(
-                            "ring-2",
-                            "ring-red-500"
-                        );
-                    }
+                    radioContainer?.classList.remove("ring-2", "ring-red-500");
                 }
             } else {
-                // Regular input/textarea validation
+                // Regular input/textarea
                 isEmpty = !field.value.trim();
                 const choicesContainer = field.closest(".choices");
 
@@ -168,24 +182,16 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Handle form submission on last step
     const form = document.getElementById("applicationForm");
     const submitBtn = document.getElementById("submitBtn");
 
     submitBtn?.addEventListener("click", (e) => {
         e.preventDefault();
+        if (!validateStep(currentStep)) return;
 
-        // Validate the final step
-        if (!validateStep(currentStep)) {
-            return;
-        }
-
-        // Check if resume is uploaded
+        // Resume check
         const resumeInput = document.getElementById("resume");
-        if (
-            resumeInput &&
-            (!resumeInput.files || resumeInput.files.length === 0)
-        ) {
+        if (resumeInput && (!resumeInput.files || !resumeInput.files.length)) {
             Swal.fire({
                 icon: "warning",
                 title: "Resume Required",
@@ -196,33 +202,43 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Check file size
-        if (resumeInput && resumeInput.files[0]) {
-            const file = resumeInput.files[0];
-            if (file.size > 2 * 1024 * 1024) {
-                Swal.fire({
-                    icon: "error",
-                    title: "File Too Large",
-                    text: "Resume must be less than 2MB.",
-                    confirmButtonColor: "#166534",
-                    confirmButtonText: "OK",
-                });
-                return;
-            }
+        if (resumeInput && resumeInput.files[0]?.size > 1 * 1024 * 1024) {
+            Swal.fire({
+                icon: "error",
+                title: "File Too Large",
+                text: "Resume must be less than 1MB.",
+                confirmButtonColor: "#166534",
+                confirmButtonText: "OK",
+            });
+            return;
         }
 
-        // All validations passed - submit the form
         form?.submit();
     });
 
-    // Initialize
+    // Photo preview
+    window.updatePhotoPreview = function () {
+        const photoInput = document.getElementById("photo");
+        const photoName = document.getElementById("photoName");
+
+        if (photoInput.files && photoInput.files.length > 0) {
+            photoName.textContent = photoInput.files[0].name;
+            photoName.classList.remove("hidden");
+        } else {
+            photoName.textContent = "";
+            photoName.classList.add("hidden");
+        }
+    };
+
     showStep(currentStep);
 });
 
-// Toggle explanation function for question section
+// ✅ toggleExplanation() stays globally accessible
 function toggleExplanation(questionId, show) {
     const explanationDiv = document.getElementById(questionId + "_explanation");
+    if (!explanationDiv) return;
     const explanationTextarea = explanationDiv.querySelector("textarea");
+    if (!explanationTextarea) return;
 
     if (show) {
         explanationDiv.classList.remove("hidden");
