@@ -144,17 +144,34 @@ class JobsListController extends Controller
 
             // Store Photo
             $photo = $request->file('photo');
-            $photoPath = $photo->storeAs($basePath, "Photo_{$firstName}_{$lastName}." . $photo->getClientOriginalExtension());
+            $photoPath = $photo->storeAs(
+                $basePath,
+                "Photo_{$firstName}_{$lastName}." . $photo->getClientOriginalExtension()
+            );
 
             // Store Resume (CV)
             $resume = $request->file('resume');
-            $cvPath = $resume->storeAs($basePath, "CV_{$firstName}_{$lastName}." . $resume->getClientOriginalExtension());
+            $cvPath = $resume->storeAs(
+                $basePath,
+                "CV_{$firstName}_{$lastName}." . $resume->getClientOriginalExtension()
+            );
 
             // Store Other File if exists
             $otherPath = null;
             if ($request->hasFile('other_file')) {
                 $otherFile = $request->file('other_file');
-                $otherPath = $otherFile->storeAs($basePath, "Supporting_Docs_{$firstName}_{$lastName}." . $otherFile->getClientOriginalExtension());
+                $otherPath = $otherFile->storeAs(
+                    $basePath,
+                    "Supporting_Docs_{$firstName}_{$lastName}." . $otherFile->getClientOriginalExtension()
+                );
+            }
+
+            // 🧹 Sanitize last_salary values in work_experience array
+            $workExperience = $request->work_experience ?? [];
+            foreach ($workExperience as &$exp) {
+                if (!empty($exp['last_salary'])) {
+                    $exp['last_salary'] = preg_replace('/\D/', '', $exp['last_salary']); // Remove non-digit chars
+                }
             }
 
             // Prepare application data
@@ -187,9 +204,32 @@ class JobsListController extends Controller
                 'education' => json_encode($request->education ?? []),
                 'seminars' => json_encode($request->seminars ?? []),
                 'organizations' => json_encode($request->organizations ?? []),
-                'work_experience' => json_encode($request->work_experience ?? []),
+                'work_experience' => json_encode($workExperience),
             ];
 
+            // Prepare other_info
+            $otherInfo = [];
+            for ($i = 1; $i <= 14; $i++) {
+                $answerKey = "question_{$i}_answer";
+                $explanationKey = "question_{$i}_explanation";
+
+                $answer = $request->input($answerKey);
+
+                // 🧹 Sanitize salary-like input for Question 12
+                if ($i === 12 && $answer) {
+                    $answer = preg_replace('/\D/', '', $answer);
+                }
+
+                $otherInfo["question_{$i}"] = [
+                    'answer' => $answer,
+                    'explanation' => $request->input($explanationKey) ?? null,
+                ];
+            }
+
+            // Add other_info to application data
+            $applicationData['other_info'] = json_encode($otherInfo);
+
+            // Create the application
             $job->applications()->create($applicationData);
 
             return redirect()->route('candidate.jobs', $job->id)

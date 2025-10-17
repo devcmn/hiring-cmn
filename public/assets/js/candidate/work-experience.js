@@ -1,6 +1,44 @@
 document.addEventListener("DOMContentLoaded", function () {
     let workExperienceCount = 0;
 
+    // Format number with dots
+    function formatNumberWithDots(number) {
+        if (!number) return "";
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    // Strip formatting to get raw number
+    function unformatNumber(formatted) {
+        return formatted.replace(/\./g, "");
+    }
+
+    // Apply formatting on input
+    function attachSalaryFormatting(input) {
+        input.addEventListener("input", function (e) {
+            const selectionStart = input.selectionStart;
+            const oldLength = input.value.length;
+
+            const rawValue = unformatNumber(input.value);
+            input.value = formatNumberWithDots(rawValue);
+
+            const newLength = input.value.length;
+            const diff = newLength - oldLength;
+            input.setSelectionRange(
+                selectionStart + diff,
+                selectionStart + diff
+            );
+        });
+
+        // Ensure unformatted value is submitted
+        input.form.addEventListener("submit", function () {
+            input.value = unformatNumber(input.value);
+        });
+
+        // Format existing value on load
+        input.value = formatNumberWithDots(unformatNumber(input.value));
+    }
+
+    // Add new work experience item
     window.addWorkExperience = function () {
         workExperienceCount++;
         const container = document.getElementById("workExperienceList");
@@ -71,8 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
                                 Last Salary (IDR) <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="work_experience[${workExperienceCount}][last_salary]"
-                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                placeholder="Company name" required>
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors last-salary-input"
+                                placeholder="e.g., 15.000" required>
                         </div>
 
                         <div>
@@ -81,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </label>
                             <input type="text" name="work_experience[${workExperienceCount}][resign_reason]"
                                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                placeholder="e.g., Software Engineer" required>
+                                placeholder="e.g., Salary" required>
                         </div>
                     </div>
 
@@ -99,17 +137,22 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
 
         container.insertAdjacentHTML("beforeend", template);
+
+        const newSalaryInput = container.querySelector(
+            `.work-experience-item[data-index="${workExperienceCount}"] .last-salary-input`
+        );
+        attachSalaryFormatting(newSalaryInput);
     };
 
+    // Remove work experience item
     window.removeWorkExperience = function (index) {
         const item = document.querySelector(
             `.work-experience-item[data-index="${index}"]`
         );
-        if (item) {
-            item.remove();
-        }
+        if (item) item.remove();
     };
 
+    // Toggle End Date
     window.toggleEndDate = function (index) {
         const checkbox = document.querySelector(
             `.work-current-checkbox[data-index="${index}"]`
@@ -131,4 +174,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 "End Date";
         }
     };
+
+    // Format any existing salary inputs on page load
+    document
+        .querySelectorAll(".last-salary-input")
+        .forEach((input) => attachSalaryFormatting(input));
 });

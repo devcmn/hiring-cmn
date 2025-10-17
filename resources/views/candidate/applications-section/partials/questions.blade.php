@@ -283,10 +283,15 @@
             12. Bila diterima, berapa besar gaji dan fasilitas apa yang Anda harapkan?
             <span class="text-red-500">*</span>
         </label>
-        <input type="text" name="question_12_answer" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-transparent text-sm"
+        <input type="text" name="question_12_answer" id="question_12_answer"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-900 focus:border-transparent text-sm salary-format"
             placeholder="Contoh: Rp. 10.000.000">
+
+        <div id="question_12_explanation" class="hidden mt-2">
+            <textarea class="w-full px-4 py-2 border border-gray-300 rounded-lg" placeholder="Jelaskan lebih detail"></textarea>
+        </div>
     </div>
+
 
     {{-- Question 13 --}}
     <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
@@ -313,17 +318,48 @@
 </div>
 
 <script>
-    function toggleExplanation(questionId, show) {
-        const explanationDiv = document.getElementById(questionId + '_explanation');
-        const explanationTextarea = explanationDiv.querySelector('textarea');
-
-        if (show) {
-            explanationDiv.classList.remove('hidden');
-            explanationTextarea.setAttribute('required', 'required');
-        } else {
-            explanationDiv.classList.add('hidden');
-            explanationTextarea.removeAttribute('required');
-            explanationTextarea.value = '';
+    document.addEventListener("DOMContentLoaded", function() {
+        // --- Number formatting ---
+        function formatNumberWithDots(number) {
+            if (!number) return "";
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
         }
-    }
+
+        function unformatNumber(formatted) {
+            return formatted.replace(/\./g, "");
+        }
+
+        function attachSalaryFormatting(input) {
+            input.addEventListener("input", function() {
+                const cursorPosition = input.selectionStart;
+                const rawValue = unformatNumber(input.value);
+                input.value = formatNumberWithDots(rawValue);
+
+                input.setSelectionRange(cursorPosition, cursorPosition);
+            });
+
+            input.form.addEventListener("submit", function() {
+                input.value = unformatNumber(input.value);
+            });
+
+            input.value = formatNumberWithDots(unformatNumber(input.value));
+        }
+
+        document.querySelectorAll(".salary-format").forEach(input => attachSalaryFormatting(input));
+
+        // --- Toggle explanation ---
+        window.toggleExplanation = function(questionId, show) {
+            const explanationDiv = document.getElementById(questionId + '_explanation');
+            const explanationTextarea = explanationDiv.querySelector('textarea');
+
+            if (show) {
+                explanationDiv.classList.remove('hidden');
+                explanationTextarea.setAttribute('required', 'required');
+            } else {
+                explanationDiv.classList.add('hidden');
+                explanationTextarea.removeAttribute('required');
+                explanationTextarea.value = '';
+            }
+        };
+    });
 </script>
