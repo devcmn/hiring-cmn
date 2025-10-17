@@ -48,6 +48,7 @@ class JobApplicationModel extends Model
         'seminars',
         'organizations',
         'work_experience',
+        'other_info',
         'status',
         'created_at',
         'updated_at',

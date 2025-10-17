@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
     let currentStep = 1;
-    const totalSteps = 5;
+    const totalSteps = 6; // Updated from 5 to 6
 
     function showStep(step) {
         document.querySelectorAll(".form-step").forEach((el) => {
@@ -78,26 +78,63 @@ document.addEventListener("DOMContentLoaded", function () {
         let valid = true;
 
         requiredFields.forEach((field) => {
-            const isEmpty = !field.value.trim();
-            const choicesContainer = field.closest(".choices");
+            let isEmpty = false;
 
-            if (isEmpty) {
-                // Add red border to the correct element
-                if (choicesContainer) {
-                    choicesContainer
-                        .querySelector(".choices__inner")
-                        ?.classList.add("border", "border-red-500");
-                } else {
-                    field.classList.add("border", "border-red-500");
+            // Check if it's a radio button group
+            if (field.type === "radio") {
+                const radioName = field.name;
+                const checkedRadio = currentStepEl.querySelector(
+                    `input[name="${radioName}"]:checked`
+                );
+                isEmpty = !checkedRadio;
+
+                // Only validate the first radio of each group
+                const firstRadio = currentStepEl.querySelector(
+                    `input[name="${radioName}"]`
+                );
+                if (field !== firstRadio) {
+                    return; // Skip validation for duplicate radio names
                 }
-                valid = false;
-            } else {
-                if (choicesContainer) {
-                    choicesContainer
-                        .querySelector(".choices__inner")
-                        ?.classList.remove("border-red-500");
+
+                if (isEmpty) {
+                    // Highlight the entire radio group container
+                    const radioContainer = field.closest(".bg-gray-50");
+                    if (radioContainer) {
+                        radioContainer.classList.add("ring-2", "ring-red-500");
+                    }
+                    valid = false;
                 } else {
-                    field.classList.remove("border-red-500");
+                    // Remove highlight
+                    const radioContainer = field.closest(".bg-gray-50");
+                    if (radioContainer) {
+                        radioContainer.classList.remove(
+                            "ring-2",
+                            "ring-red-500"
+                        );
+                    }
+                }
+            } else {
+                // Regular input/textarea validation
+                isEmpty = !field.value.trim();
+                const choicesContainer = field.closest(".choices");
+
+                if (isEmpty) {
+                    if (choicesContainer) {
+                        choicesContainer
+                            .querySelector(".choices__inner")
+                            ?.classList.add("border", "border-red-500");
+                    } else {
+                        field.classList.add("border", "border-red-500");
+                    }
+                    valid = false;
+                } else {
+                    if (choicesContainer) {
+                        choicesContainer
+                            .querySelector(".choices__inner")
+                            ?.classList.remove("border-red-500");
+                    } else {
+                        field.classList.remove("border-red-500");
+                    }
                 }
             }
         });
@@ -131,7 +168,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // ✅ ADD THIS: Handle form submission on last step
+    // Handle form submission on last step
     const form = document.getElementById("applicationForm");
     const submitBtn = document.getElementById("submitBtn");
 
@@ -143,7 +180,7 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Check if resume is uploaded (from your documents.js)
+        // Check if resume is uploaded
         const resumeInput = document.getElementById("resume");
         if (
             resumeInput &&
@@ -181,3 +218,18 @@ document.addEventListener("DOMContentLoaded", function () {
     // Initialize
     showStep(currentStep);
 });
+
+// Toggle explanation function for question section
+function toggleExplanation(questionId, show) {
+    const explanationDiv = document.getElementById(questionId + "_explanation");
+    const explanationTextarea = explanationDiv.querySelector("textarea");
+
+    if (show) {
+        explanationDiv.classList.remove("hidden");
+        explanationTextarea.setAttribute("required", "required");
+    } else {
+        explanationDiv.classList.add("hidden");
+        explanationTextarea.removeAttribute("required");
+        explanationTextarea.value = "";
+    }
+}
