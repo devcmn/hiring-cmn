@@ -1,4 +1,4 @@
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
+{{-- <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
     <!-- Total Applications -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
         <div class="flex items-center justify-between">
@@ -87,7 +87,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">

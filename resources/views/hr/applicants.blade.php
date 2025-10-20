@@ -170,12 +170,12 @@
                                                             $statusConfig[$application->status] ??
                                                             $statusConfig['pending'];
                                                     @endphp
-                                                    <span
+                                                    {{-- <span
                                                         class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold {{ $status['bg'] }} {{ $status['text'] }}">
                                                         <span
                                                             class="w-2 h-2 {{ $status['dot'] }} rounded-full mr-2 animate-pulse"></span>
                                                         {{ $status['label'] }}
-                                                    </span>
+                                                    </span> --}}
                                                 </div>
 
                                                 <div
