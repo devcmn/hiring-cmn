@@ -532,6 +532,29 @@
             </div>
         @endif
 
+        <div class="mt-8 mb-6 print:mt-0"
+            style="page-break-before: always; break-before: page; page-break-inside: avoid;">
+            <div class="bg-white rounded-lg border border-gray-300 p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-3" style="color: #1a5c3a;">Gambarkan struktur
+                    organisasi
+                    perusahaan Anda</h3>
+                <p class="text-sm text-gray-600 mb-4">Silakan gambar struktur organisasi di area di bawah ini</p>
+
+                <!-- big drawing box -->
+                <div class="w-full"
+                    style="min-height: 300px; margin-top: 10px; border: 2px dashed #1a5c3a; border-radius: 8px; background: #ffffff;">
+                    <div style="position:relative;">
+                        <div
+                            style="position:absolute; inset:0; pointer-events:none; opacity:0.06;
+            background-image:
+              linear-gradient(to right, #000 1px, transparent 1px),
+              linear-gradient(to bottom, #000 1px, transparent 1px);
+            background-size: 24px 24px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <!-- Footer -->
         <div class="footer">
             <p>Generated on {{ \Carbon\Carbon::now()->format('d M Y H:i') }} | Job ID: {{ $job->id }} | Position:
