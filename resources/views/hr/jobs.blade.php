@@ -74,7 +74,19 @@
                     </div>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-900 mb-2">{{ $job->title }}</h3>
+                <h3 class="text-xl font-bold text-gray-900 mb-2 flex items-center gap-3">
+                    {{ $job->title }}
+                    <button onclick="copyJobLink('{{ url('/jobs/' . $job->id . '/detail') }}')"
+                        class="text-xs h-6 px-2 border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 hover:text-gray-800 transition flex items-center justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 mr-1" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
+                        </svg>
+                        Share
+                    </button>
+                </h3>
+
                 <p class="text-sm text-gray-600 mb-4">{{ $job->company_name }}</p>
 
                 <p class="text-sm text-gray-700 mb-4 line-clamp-2">
@@ -126,4 +138,30 @@
 
     @include('hr.modal.job-details-modal')
     <script src={{ asset('assets/js/hr/job-details.js') }}></script>
+    <script>
+        function copyJobLink(link) {
+            navigator.clipboard.writeText(link).then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Link Copied!',
+                    text: 'The job link has been copied to your clipboard.',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    position: 'top-end',
+                    toast: true
+                });
+            }).catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'Failed to copy the link.',
+                    timer: 1500,
+                    showConfirmButton: false,
+                    position: 'top-end',
+                    toast: true
+                });
+            });
+        }
+    </script>
 @endsection
