@@ -125,7 +125,7 @@ class JobsListController extends Controller
             'work_experience.*.responsibilities' => 'nullable|string',
 
             // Documents
-            'resume' => 'required|file|mimes:pdf,doc,docx|max:1024',
+            // 'resume' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
             'other_file' => 'nullable|file|mimes:pdf,doc,docx|max:1024',
             'cover_letter' => 'nullable|string',
             'terms' => 'required|accepted',
@@ -150,12 +150,14 @@ class JobsListController extends Controller
             );
 
             // Store Resume (CV)
-            $resume = $request->file('resume');
-            $cvPath = $resume->storeAs(
-                $basePath,
-                "CV_{$firstName}_{$lastName}." . $resume->getClientOriginalExtension()
-            );
-
+            $cvPath = null;
+            // if ($request->hasFile('resume')) {
+            //     $resume = $request->file('resume');
+            //     $cvPath = $resume->storeAs(
+            //         $basePath,
+            //         "CV_{$firstName}_{$lastName}." . $resume->getClientOriginalExtension()
+            //     );
+            // }
             // Store Other File if exists
             $otherPath = null;
             if ($request->hasFile('other_file')) {

@@ -190,30 +190,30 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!validateStep(currentStep)) return;
 
         // Resume check
-        const resumeInput = document.getElementById("resume");
-        if (resumeInput && (!resumeInput.files || !resumeInput.files.length)) {
-            Swal.fire({
-                icon: "warning",
-                title: "Resume Required",
-                text: "Please upload your resume before submitting.",
-                confirmButtonColor: "#166534",
-                confirmButtonText: "OK",
-            });
-            return;
-        }
+        // const resumeInput = document.getElementById("resume");
+        // if (resumeInput && (!resumeInput.files || !resumeInput.files.length)) {
+        //     Swal.fire({
+        //         icon: "warning",
+        //         title: "Resume Required",
+        //         text: "Please upload your resume before submitting.",
+        //         confirmButtonColor: "#166534",
+        //         confirmButtonText: "OK",
+        //     });
+        //     return;
+        // }
 
-        if (resumeInput && resumeInput.files[0]?.size > 1 * 1024 * 1024) {
-            Swal.fire({
-                icon: "error",
-                title: "File Too Large",
-                text: "Resume must be less than 1MB.",
-                confirmButtonColor: "#166534",
-                confirmButtonText: "OK",
-            });
-            return;
-        }
+        // if (resumeInput && resumeInput.files[0]?.size > 1 * 1024 * 1024) {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "File Too Large",
+        //         text: "Resume must be less than 1MB.",
+        //         confirmButtonColor: "#166534",
+        //         confirmButtonText: "OK",
+        //     });
+        //     return;
+        // }
 
-        form?.submit();
+        form?.requestSubmit();
     });
 
     // Photo preview

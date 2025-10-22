@@ -1,5 +1,3 @@
-console.log("documents.js loaded");
-
 // Cover letter character counter
 const coverLetter = document.querySelector('textarea[name="cover_letter"]');
 const charCount = document.getElementById("charCount");

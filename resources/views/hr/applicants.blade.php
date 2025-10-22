@@ -242,7 +242,7 @@
                                                 $filename = $cvParts[4] ?? '';
                                             @endphp
 
-                                            <a href="{{ route('file.download', [$type, $jobId, $folder, $filename]) }}"
+                                            {{-- <a href="{{ route('file.download', [$type, $jobId, $folder, $filename]) }}"
                                                 class="px-4 py-2.5 bg-white border-2 border-gray-300 text-gray-700 text-sm font-semibold rounded-lg hover:bg-gray-50 transition-colors inline-flex items-center justify-center">
                                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor"
                                                     viewBox="0 0 24 24">
@@ -250,7 +250,7 @@
                                                         d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                                                 </svg>
                                                 Download CV
-                                            </a>
+                                            </a> --}}
 
                                             <a href="{{ route('application.form.download', [$application->id]) }}"
                                                 target="_blank"

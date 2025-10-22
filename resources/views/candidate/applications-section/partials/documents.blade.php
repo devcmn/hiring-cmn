@@ -8,11 +8,11 @@
             </svg>
             Application Documents
         </h3>
-        <p class="text-sm text-gray-500 mt-1">Upload your resume and other supporting documents</p>
+        <p class="text-sm text-gray-500 mt-1">Upload your supporting documents</p>
     </div>
 
     {{-- Resume/CV Upload --}}
-    <div>
+    {{-- <div>
         <label class="block text-sm font-semibold text-gray-700 mb-2">
             Resume/CV <span class="text-red-500">*</span>
         </label>
@@ -40,7 +40,7 @@
         @error('resume')
             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
         @enderror
-    </div>
+    </div> --}}
 
     {{-- Other File Upload --}}
     <div>

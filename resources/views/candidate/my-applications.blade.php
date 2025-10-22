@@ -188,7 +188,7 @@
                                                 <dt class="text-gray-600">Phone:</dt>
                                                 <dd class="font-medium text-gray-900">{{ $application->phone }}</dd>
                                             </div>
-                                            <div class="flex justify-between">
+                                            {{-- <div class="flex justify-between">
                                                 <dt class="text-gray-600">Resume:</dt>
                                                 <dd>
                                                     @php
@@ -209,7 +209,7 @@
                                                         Download CV
                                                     </a>
                                                 </dd>
-                                            </div>
+                                            </div> --}}
                                         </dl>
                                     </div>
 
